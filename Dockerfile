@@ -8,7 +8,7 @@ RUN composer install \
     --no-interaction \
     --no-progress \
     --optimize-autoloader \
-    --ignore-platform-req=ext-gd
+    --ignore-platform-reqs
 
 FROM php:8.2-apache
 
