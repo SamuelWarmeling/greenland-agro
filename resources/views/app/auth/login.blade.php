@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8">
@@ -11,7 +11,6 @@
     <style>
         :root {
             --gla-green: #2E8B57;
-            --gla-green-light: #6BCB77;
             --gla-green-cta: #22C55E;
             --gla-blue: #1E6FA8;
             --gla-blue-dark: #0B3C5D;
@@ -99,17 +98,33 @@
                 <p>Acesse sua conta para acompanhar planos, ciclos, beneficios VIP e a evolucao da sua estrategia dentro da plataforma GreenLand Agro.</p>
             </div>
             <div class="hero-grid">
-                <div class="hero-card"><strong>Planos e ciclos</strong><span>Acompanhe planos base, ciclos VIP e eventos rapidos em um unico ambiente.</span></div>
-                <div class="hero-card"><strong>Progressao VIP</strong><span>Veja sua evolucao por nivel conforme o total investido na plataforma.</span></div>
+                <div class="hero-card">
+                    <strong>Planos e ciclos</strong>
+                    <span>Acompanhe planos base, ciclos VIP e eventos rapidos em um unico ambiente.</span>
+                </div>
+                <div class="hero-card">
+                    <strong>Progressao VIP</strong>
+                    <span>Veja sua evolucao por nivel conforme o total investido na plataforma.</span>
+                </div>
             </div>
         </section>
         <section class="panel">
             <div class="eyebrow">Acesso seguro</div>
             <h3>Entrar na plataforma</h3>
             <p class="subtitle">Use seu numero cadastrado e sua senha para acessar a sua area.</p>
-            @if(session('error'))<div class="flash error">{{ session('error') }}</div>@endif
-            @if(session('message'))<div class="flash error">{{ is_string(session('message')) ? session('message') : 'Nao foi possivel concluir o acesso.' }}</div>@endif
-            @if($errors->any())<div class="flash error">{{ $errors->first() }}</div>@endif
+
+            @if(session('error'))
+                <div class="flash error">{{ session('error') }}</div>
+            @endif
+
+            @if(session('message'))
+                <div class="flash error">{{ session('message') }}</div>
+            @endif
+
+            @if($errors->any())
+                <div class="flash error">{{ $errors->first() }}</div>
+            @endif
+
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
                 <div class="field">
@@ -122,11 +137,15 @@
                     <input id="password" name="password" type="password" placeholder="Digite sua senha" required>
                 </div>
                 <div class="row">
-                    <label class="check"><input type="checkbox" checked><span>Lembrar meus dados neste dispositivo</span></label>
+                    <label class="check">
+                        <input type="checkbox" checked>
+                        <span>Lembrar meus dados neste dispositivo</span>
+                    </label>
                     <a href="{{ route('password.request') }}">Esqueceu sua senha?</a>
                 </div>
                 <button type="submit" class="btn">Entrar agora</button>
             </form>
+
             <div class="footer-link">Ainda nao tem conta? <a href="{{ route('register') }}">Criar cadastro</a></div>
         </section>
     </div>

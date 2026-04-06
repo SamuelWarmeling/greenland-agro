@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8">
@@ -10,20 +10,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --gla-green: #2E8B57; --gla-green-cta: #22C55E; --gla-blue: #1E6FA8; --gla-blue-dark: #0B3C5D;
-            --gla-surface: #FFFFFF; --gla-text: #1F2937; --gla-muted: #6B7280; --gla-border: rgba(11, 60, 93, 0.12);
+            --gla-green: #2E8B57;
+            --gla-green-cta: #22C55E;
+            --gla-blue: #1E6FA8;
+            --gla-blue-dark: #0B3C5D;
+            --gla-surface: #FFFFFF;
+            --gla-text: #1F2937;
+            --gla-muted: #6B7280;
+            --gla-border: rgba(11, 60, 93, 0.12);
             --gla-shadow: 0 24px 60px rgba(11, 60, 93, 0.14);
         }
         * { box-sizing: border-box; }
         body {
-            margin: 0; min-height: 100vh; font-family: 'Barlow', sans-serif; color: var(--gla-text);
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Barlow', sans-serif;
+            color: var(--gla-text);
             background: radial-gradient(circle at top left, rgba(107, 203, 119, 0.18), transparent 28%), linear-gradient(135deg, #1E6FA8 0%, #2E8B57 100%);
         }
         a { color: inherit; text-decoration: none; }
         .wrap { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
         .auth-shell {
-            width: 100%; max-width: 1120px; display: grid; grid-template-columns: 0.98fr 1.02fr; background: rgba(255,255,255,0.97);
-            border: 1px solid rgba(255,255,255,0.32); border-radius: 28px; overflow: hidden; box-shadow: var(--gla-shadow);
+            width: 100%; max-width: 1120px; display: grid; grid-template-columns: 0.98fr 1.02fr;
+            background: rgba(255,255,255,0.97); border: 1px solid rgba(255,255,255,0.32);
+            border-radius: 28px; overflow: hidden; box-shadow: var(--gla-shadow);
         }
         .hero {
             padding: 42px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
@@ -68,7 +78,10 @@
         <section class="hero">
             <div class="brand">
                 <div class="brand-mark">GLA</div>
-                <div><h1>GreenLand Agro</h1><p>Inovacao que cultiva o futuro</p></div>
+                <div>
+                    <h1>GreenLand Agro</h1>
+                    <p>Inovacao que cultiva o futuro</p>
+                </div>
             </div>
             <div class="hero-copy">
                 <h2>Comece sua jornada na plataforma GreenLand Agro.</h2>
@@ -84,9 +97,19 @@
             <div class="eyebrow">Novo cadastro</div>
             <h3>Criar conta</h3>
             <p class="subtitle">Preencha os dados abaixo para entrar na plataforma GreenLand Agro.</p>
-            @if(session('error'))<div class="flash error">{{ session('error') }}</div>@endif
-            @if(session('message'))<div class="flash error">{{ is_string(session('message')) ? session('message') : 'Nao foi possivel concluir o cadastro.' }}</div>@endif
-            @if($errors->any())<div class="flash error">{{ $errors->first() }}</div>@endif
+
+            @if(session('error'))
+                <div class="flash error">{{ session('error') }}</div>
+            @endif
+
+            @if(session('message'))
+                <div class="flash error">{{ session('message') }}</div>
+            @endif
+
+            @if($errors->any())
+                <div class="flash error">{{ $errors->first() }}</div>
+            @endif
+
             <form method="POST" action="{{ url('register') }}">
                 @csrf
                 <div class="field">
@@ -106,6 +129,7 @@
                 <div class="note">Ao criar sua conta, voce entra na plataforma e podera ativar o plano base para sair do VIP 0 e iniciar sua progressao.</div>
                 <button type="submit" class="btn">Criar minha conta</button>
             </form>
+
             <div class="footer-link">Ja possui conta? <a href="{{ route('login') }}">Entrar agora</a></div>
         </section>
     </div>
