@@ -11,7 +11,7 @@ RUN composer install \
 
 FROM php:8.2-apache
 
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
+ENV APACHE_DOCUMENT_ROOT=/var/www/html \
     COMPOSER_ALLOW_SUPERUSER=1
 
 RUN apt-get update && apt-get install -y \
@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" pdo_mysql gd bcmath intl zip \
-    && sed -i 's/\/var\/www\/html/\/var\/www\/html\/public/g' /etc/apache2/sites-available/000-default.conf \
     && a2enmod rewrite headers \
     && rm -rf /var/lib/apt/lists/*
 
@@ -32,6 +31,7 @@ WORKDIR /var/www/html
 
 COPY --from=vendor /app/vendor ./vendor
 COPY . .
+COPY docker/apache-vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY docker/entrypoint.sh /usr/local/bin/render-entrypoint
 
 RUN chmod +x /usr/local/bin/render-entrypoint \
