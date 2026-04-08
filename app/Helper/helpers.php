@@ -345,6 +345,45 @@ if (! function_exists('gla_base_plan_catalog')) {
             240 => ['name' => 'Safrinha', 'photo' => '/public/upload/package/gla/semente.jpeg'],
             480 => ['name' => 'Safra', 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
             960 => ['name' => 'Colheita Premium', 'photo' => '/public/upload/package/gla/safra.jpeg'],
+            1920 => ['name' => 'Agro Prime', 'photo' => '/public/upload/package/gla/agro-prime.jpeg'],
+        ];
+    }
+}
+
+if (! function_exists('gla_cycle_plan_catalog')) {
+    function gla_cycle_plan_catalog()
+    {
+        return [
+            '40:3' => ['name' => 'Semente'],
+            '120:5' => ['name' => 'Germinacao'],
+            '240:7' => ['name' => 'Desenvolvimento'],
+            '480:10' => ['name' => 'Producao'],
+            '960:12' => ['name' => 'Alta Producao'],
+            '1920:15' => ['name' => 'Escala Agricola'],
+        ];
+    }
+}
+
+if (! function_exists('gla_event_plan_catalog')) {
+    function gla_event_plan_catalog()
+    {
+        return [
+            'quick' => [
+                '30:1' => ['name' => 'Semente'],
+                '60:1' => ['name' => 'Plantio'],
+                '120:1' => ['name' => 'Lavoura'],
+                '240:1' => ['name' => 'Safrinha'],
+                '480:1' => ['name' => 'Safra'],
+                '960:1' => ['name' => 'Mega Safra'],
+            ],
+            'flash' => [
+                '30:1' => ['name' => 'Start Agro'],
+                '80:2' => ['name' => 'Base Produtiva'],
+                '160:3' => ['name' => 'Expansao Agricola'],
+                '320:4' => ['name' => 'Rendimento Ativo'],
+                '640:5' => ['name' => 'Alta Rentabilidade'],
+                '1280:6' => ['name' => 'Elite Agro'],
+            ],
         ];
     }
 }
@@ -357,21 +396,67 @@ if (! function_exists('gla_package_display_meta')) {
             'photo' => $package->photo ?? '/public/assets/img/greenland-agro-logo.jpeg',
         ];
 
-        if (! $package || ($package->tab ?? null) !== 'vip' || (int) ($package->validity ?? 0) !== 40) {
+        if (! $package) {
             return $fallback;
         }
 
-        $catalog = gla_base_plan_catalog();
+        $tab = $package->tab ?? null;
         $priceKey = (int) ($package->price ?? 0);
+        $validityKey = (int) ($package->validity ?? 0);
 
-        if (! isset($catalog[$priceKey])) {
-            return $fallback;
+        if ($tab === 'vip' && $validityKey === 40) {
+            $catalog = gla_base_plan_catalog();
+
+            if (! isset($catalog[$priceKey])) {
+                return $fallback;
+            }
+
+            return [
+                'name' => $catalog[$priceKey]['name'],
+                'photo' => $catalog[$priceKey]['photo'] ?: $fallback['photo'],
+            ];
         }
 
-        return [
-            'name' => $catalog[$priceKey]['name'],
-            'photo' => $catalog[$priceKey]['photo'] ?: $fallback['photo'],
-        ];
+        if ($tab === 'fixed') {
+            $catalog = gla_cycle_plan_catalog();
+            $lookup = $priceKey . ':' . $validityKey;
+
+            if (! isset($catalog[$lookup])) {
+                return $fallback;
+            }
+
+            return [
+                'name' => $catalog[$lookup]['name'],
+                'photo' => $fallback['photo'],
+            ];
+        }
+
+        if ($tab === 'event') {
+            $catalog = gla_event_plan_catalog();
+            $lookup = $priceKey . ':' . $validityKey;
+            $currentName = strtolower((string) ($package->name ?? ''));
+            $mode = str_contains($currentName, 'escalonado')
+                || str_contains($currentName, 'flash')
+                || str_contains($currentName, 'start agro')
+                || str_contains($currentName, 'base produtiva')
+                || str_contains($currentName, 'expansao')
+                || str_contains($currentName, 'rendimento ativo')
+                || str_contains($currentName, 'alta rentabilidade')
+                || str_contains($currentName, 'elite agro')
+                ? 'flash'
+                : 'quick';
+
+            if (! isset($catalog[$mode][$lookup])) {
+                return $fallback;
+            }
+
+            return [
+                'name' => $catalog[$mode][$lookup]['name'],
+                'photo' => $fallback['photo'],
+            ];
+        }
+
+        return $fallback;
     }
 }
 

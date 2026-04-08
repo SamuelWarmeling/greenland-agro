@@ -60,10 +60,13 @@
         <h3>Ciclos por nivel</h3>
         <div class="grid cols-2">
             @foreach($cyclePlans as $package)
-                @php $requiredLevel = gla_package_level($package); @endphp
+                @php
+                    $requiredLevel = gla_package_level($package);
+                    $displayMeta = gla_package_display_meta($package);
+                @endphp
                 <div class="card">
                     <span class="badge info">VIP {{ $requiredLevel }}</span>
-                    <h4>{{ $package->name }}</h4>
+                    <h4>{{ $displayMeta['name'] }}</h4>
                     <div class="price">{{ price($package->price) }}</div>
                     <p>Ciclo: <strong>{{ $package->validity }} dias</strong></p>
                     <p>Retorno estimado: <strong>{{ price($package->commission_with_avg_amount) }}</strong></p>
@@ -85,10 +88,13 @@
         <p class="subtle">Os eventos funcionam como ciclos rapidos e podem ser liberados em janelas especiais dentro da plataforma.</p>
         <div class="grid cols-2">
             @foreach($eventPlans as $package)
-                @php $requiredLevel = gla_package_level($package); @endphp
+                @php
+                    $requiredLevel = gla_package_level($package);
+                    $displayMeta = gla_package_display_meta($package);
+                @endphp
                 <div class="card">
                     <span class="badge warn">Evento VIP {{ $requiredLevel }}</span>
-                    <h4>{{ $package->name }}</h4>
+                    <h4>{{ $displayMeta['name'] }}</h4>
                     <div class="price">{{ price($package->price) }}</div>
                     <p>Ciclo: <strong>{{ $package->validity }} dias</strong></p>
                     <p>Retorno estimado: <strong>{{ price($package->commission_with_avg_amount) }}</strong></p>

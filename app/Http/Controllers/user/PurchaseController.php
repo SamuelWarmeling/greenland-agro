@@ -39,6 +39,14 @@ class PurchaseController extends Controller
                 return back()->with('error', "Seu nivel atual nao libera esse ciclo. Necessario VIP {$requiredLevel}.");
             }
 
+            $previousPurchase = Purchase::where('user_id', $user->id)
+                ->where('package_id', $package->id)
+                ->exists();
+
+            if ($previousPurchase) {
+                return back()->with('error', 'Cada plano pode ser adquirido apenas uma unica vez.');
+            }
+
             $activePurchase = Purchase::where('user_id', $user->id)
                 ->where('package_id', $package->id)
                 ->where('status', 'active')

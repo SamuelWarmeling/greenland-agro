@@ -56,7 +56,7 @@ class WithdrawController extends Controller
             return redirect()->back()->with('error', 'Saldo insuficiente.');
         }
 
-        $minimumWithdraw = 10;
+        $minimumWithdraw = 20;
         $maximumWithdraw = (float) setting('maximum_withdraw');
 
         if ((float) $request->amount < $minimumWithdraw) {
