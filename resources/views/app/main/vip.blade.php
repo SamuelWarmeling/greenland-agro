@@ -32,9 +32,13 @@
         <p class="subtle">Disponiveis apenas para ativacao inicial. Duracao de 40 dias e rendimento de 15% ao dia.</p>
         <div class="grid cols-2">
             @foreach($basePlans as $package)
+                @php $displayMeta = gla_package_display_meta($package); @endphp
                 <div class="card">
                     <span class="badge">Plano Base</span>
-                    <h4>{{ $package->name }}</h4>
+                    <div style="border-radius:16px; overflow:hidden; margin-bottom:12px; aspect-ratio:1/1; background:#eef5f7;">
+                        <img src="{{ view_image($displayMeta['photo']) }}" alt="{{ $displayMeta['name'] }}" style="width:100%; height:100%; object-fit:cover;">
+                    </div>
+                    <h4>{{ $displayMeta['name'] }}</h4>
                     <div class="price">{{ price($package->price) }}</div>
                     <p>Retorno diario: <strong>{{ price($package->daily_income ?? ($package->commission_with_avg_amount / max(1, (int) $package->validity))) }}</strong></p>
                     <p>Total em {{ $package->validity }} dias: <strong>{{ price($package->commission_with_avg_amount) }}</strong></p>

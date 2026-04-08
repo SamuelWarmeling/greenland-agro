@@ -47,10 +47,10 @@ class GreenLandAgroSeeder extends Seeder
         );
 
         $plans = [
-            ['name' => 'Plano Base R$40', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'commission_with_avg_amount' => 240],
-            ['name' => 'Plano Base R$80', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'commission_with_avg_amount' => 480],
-            ['name' => 'Plano Base R$120', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720],
-            ['name' => 'Plano Base R$240', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 240, 'validity' => 40, 'commission_with_avg_amount' => 1440],
+            ['name' => 'Semente', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'commission_with_avg_amount' => 240, 'photo' => '/public/upload/package/gla/semente.jpeg'],
+            ['name' => 'Broto', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'commission_with_avg_amount' => 480, 'photo' => '/public/upload/package/gla/broto.jpeg'],
+            ['name' => 'Cultivo', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720, 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
+            ['name' => 'Safrinha', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 240, 'validity' => 40, 'commission_with_avg_amount' => 1440, 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
             ['name' => 'Ciclo VIP 1', 'label' => 'VIP 1', 'tab' => 'fixed', 'price' => 40, 'validity' => 3, 'commission_with_avg_amount' => 60],
             ['name' => 'Ciclo VIP 2', 'label' => 'VIP 2', 'tab' => 'fixed', 'price' => 120, 'validity' => 5, 'commission_with_avg_amount' => 150],
             ['name' => 'Ciclo VIP 3', 'label' => 'VIP 3', 'tab' => 'fixed', 'price' => 240, 'validity' => 7, 'commission_with_avg_amount' => 320],
@@ -73,10 +73,10 @@ class GreenLandAgroSeeder extends Seeder
 
         foreach ($plans as $plan) {
             Package::updateOrCreate(
-                ['name' => $plan['name']],
+                ['tab' => $plan['tab'], 'price' => $plan['price'], 'validity' => $plan['validity']],
                 array_merge($plan, [
                     'package_id' => null,
-                    'photo' => '/public/assets/img/logo.png',
+                    'photo' => $plan['photo'] ?? '/public/assets/img/logo.png',
                     'ref1' => 20,
                     'ref2' => 7,
                     'ref3' => 1,

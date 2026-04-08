@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Models\Package;
 use App\Models\Purchase;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
@@ -331,6 +332,54 @@ if (! function_exists('gla_checkin_amount')) {
         $amount = (float) setting('checkin');
 
         return $amount > 0 ? $amount : 0.50;
+    }
+}
+
+if (! function_exists('gla_base_plan_catalog')) {
+    function gla_base_plan_catalog()
+    {
+        return [
+            ['name' => 'Semente', 'photo' => '/public/upload/package/gla/semente.jpeg'],
+            ['name' => 'Broto', 'photo' => '/public/upload/package/gla/broto.jpeg'],
+            ['name' => 'Cultivo', 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
+            ['name' => 'Safrinha', 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
+            ['name' => 'Safra', 'photo' => '/public/upload/package/gla/safra.jpeg'],
+            ['name' => 'Colheita Premium', 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
+            ['name' => 'Agro Prime', 'photo' => '/public/upload/package/gla/agro-prime.jpeg'],
+        ];
+    }
+}
+
+if (! function_exists('gla_package_display_meta')) {
+    function gla_package_display_meta($package)
+    {
+        $fallback = [
+            'name' => $package->name ?? 'Plano',
+            'photo' => $package->photo ?? '/public/assets/img/logo.png',
+        ];
+
+        if (! $package || ($package->tab ?? null) !== 'vip' || (int) ($package->validity ?? 0) !== 40) {
+            return $fallback;
+        }
+
+        $basePlanIds = Package::where('tab', 'vip')
+            ->where('validity', 40)
+            ->where('status', 'active')
+            ->orderBy('price')
+            ->pluck('id')
+            ->values();
+
+        $position = $basePlanIds->search($package->id);
+        $catalog = gla_base_plan_catalog();
+
+        if ($position === false || ! isset($catalog[$position])) {
+            return $fallback;
+        }
+
+        return [
+            'name' => $catalog[$position]['name'],
+            'photo' => $catalog[$position]['photo'],
+        ];
     }
 }
 
