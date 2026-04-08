@@ -340,12 +340,11 @@ if (! function_exists('gla_base_plan_catalog')) {
     {
         return [
             ['name' => 'Semente', 'photo' => null],
-            ['name' => 'Broto', 'photo' => null],
-            ['name' => 'Cultivo', 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
+            ['name' => 'Plantio', 'photo' => null],
+            ['name' => 'Lavoura', 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
             ['name' => 'Safrinha', 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
             ['name' => 'Safra', 'photo' => '/public/upload/package/gla/safra.jpeg'],
-            ['name' => 'Colheita Premium', 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
-            ['name' => 'Agro Prime', 'photo' => '/public/upload/package/gla/agro-prime.jpeg'],
+            ['name' => 'Mega Safra', 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
         ];
     }
 }

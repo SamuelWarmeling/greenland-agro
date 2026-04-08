@@ -48,8 +48,8 @@ class GreenLandAgroSeeder extends Seeder
 
         $plans = [
             ['name' => 'Semente', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'photo' => null, 'commission_with_avg_amount' => 240],
-            ['name' => 'Broto', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'photo' => null, 'commission_with_avg_amount' => 480],
-            ['name' => 'Cultivo', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720, 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
+            ['name' => 'Plantio', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'photo' => null, 'commission_with_avg_amount' => 480],
+            ['name' => 'Lavoura', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720, 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
             ['name' => 'Safrinha', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 240, 'validity' => 40, 'commission_with_avg_amount' => 1440, 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
             ['name' => 'Ciclo VIP 1', 'label' => 'VIP 1', 'tab' => 'fixed', 'price' => 40, 'validity' => 3, 'commission_with_avg_amount' => 60],
             ['name' => 'Ciclo VIP 2', 'label' => 'VIP 2', 'tab' => 'fixed', 'price' => 120, 'validity' => 5, 'commission_with_avg_amount' => 150],
