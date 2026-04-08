@@ -47,12 +47,12 @@ class GreenLandAgroSeeder extends Seeder
         );
 
         $plans = [
-            ['name' => 'Semente', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'photo' => '/public/upload/package/gla/semente.jpeg', 'commission_with_avg_amount' => 240],
-            ['name' => 'Broto', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'photo' => '/public/upload/package/gla/broto.jpeg', 'commission_with_avg_amount' => 480],
-            ['name' => 'Cultivo', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720, 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
-            ['name' => 'Safrinha', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 240, 'validity' => 40, 'commission_with_avg_amount' => 1440, 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
-            ['name' => 'Safra', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 480, 'validity' => 40, 'commission_with_avg_amount' => 2880, 'photo' => '/public/upload/package/gla/safra.jpeg'],
-            ['name' => 'Colheita Premium', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 960, 'validity' => 40, 'commission_with_avg_amount' => 5760, 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
+            ['name' => 'Semente', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'photo' => '/public/upload/package/gla/safrinha.jpeg', 'commission_with_avg_amount' => 240],
+            ['name' => 'Broto', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'photo' => '/public/upload/package/gla/cultivo.jpeg', 'commission_with_avg_amount' => 480],
+            ['name' => 'Cultivo', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720, 'photo' => '/public/upload/package/gla/broto.jpeg'],
+            ['name' => 'Safrinha', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 240, 'validity' => 40, 'commission_with_avg_amount' => 1440, 'photo' => '/public/upload/package/gla/semente.jpeg'],
+            ['name' => 'Safra', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 480, 'validity' => 40, 'commission_with_avg_amount' => 2880, 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
+            ['name' => 'Colheita Premium', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 960, 'validity' => 40, 'commission_with_avg_amount' => 5760, 'photo' => '/public/upload/package/gla/safra.jpeg'],
             ['name' => 'Ciclo VIP 1', 'label' => 'VIP 1', 'tab' => 'fixed', 'price' => 40, 'validity' => 3, 'commission_with_avg_amount' => 60],
             ['name' => 'Ciclo VIP 2', 'label' => 'VIP 2', 'tab' => 'fixed', 'price' => 120, 'validity' => 5, 'commission_with_avg_amount' => 150],
             ['name' => 'Ciclo VIP 3', 'label' => 'VIP 3', 'tab' => 'fixed', 'price' => 240, 'validity' => 7, 'commission_with_avg_amount' => 320],
