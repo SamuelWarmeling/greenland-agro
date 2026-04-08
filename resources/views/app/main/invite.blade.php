@@ -3,6 +3,7 @@
     $pageTitle = 'Convites';
     $inviteCode = auth()->user()->ref_id;
     $formattedInviteCode = trim(chunk_split($inviteCode, 3, ' '));
+    $inviteLink = url('/register') . '?member=' . $inviteCode;
 @endphp
 @section('content')
     <section class="hero">
@@ -24,6 +25,24 @@
                     onclick="navigator.clipboard.writeText('{{ $inviteCode }}')"
                 >
                     Copiar codigo
+                </button>
+            </div>
+        </div>
+        <div class="card" style="margin-top:14px;">
+            <div class="badge info" style="margin-bottom:12px;">Link de convite</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <div style="flex:1 1 280px;">
+                    <div style="font-family:monospace; font-size:0.96rem; line-height:1.7; color:var(--gla-blue-dark); word-break:break-all;">
+                        {{ $inviteLink }}
+                    </div>
+                    <p style="margin:10px 0 0;">Quem abrir esse link ja chega com o seu convite vinculado no cadastro.</p>
+                </div>
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    onclick="navigator.clipboard.writeText('{{ $inviteLink }}')"
+                >
+                    Copiar link
                 </button>
             </div>
         </div>
