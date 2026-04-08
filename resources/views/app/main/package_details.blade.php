@@ -17,7 +17,7 @@
         <div class="table-like">
             <div class="row-line"><span>Nome comercial</span><strong>{{ $displayMeta['name'] }}</strong></div>
             <div class="row-line"><span>Tipo</span><strong>{{ gla_package_type_label($package) }}</strong></div>
-            <div class="row-line"><span>Nivel exigido</span><strong>VIP {{ $requiredLevel }}</strong></div>
+            <div class="row-line"><span>Nivel exigido</span><strong>{{ gla_level_label($requiredLevel) }}</strong></div>
             <div class="row-line"><span>Valor do plano</span><strong>{{ price($package->price) }}</strong></div>
             <div class="row-line"><span>Duracao</span><strong>{{ $package->validity }} dias</strong></div>
             <div class="row-line"><span>Retorno total</span><strong>{{ price($package->commission_with_avg_amount) }}</strong></div>

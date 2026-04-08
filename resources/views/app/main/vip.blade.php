@@ -22,7 +22,7 @@
     <section class="section">
         <h3>Seu enquadramento atual</h3>
         <div class="table-like">
-            <div class="row-line"><span>Nivel liberado</span><strong>VIP {{ $vipLevel }}</strong></div>
+            <div class="row-line"><span>Nivel liberado</span><strong>{{ gla_level_label($vipLevel) }}</strong></div>
             <div class="row-line"><span>Total em ativos</span><strong>{{ price($totalInvestment) }}</strong></div>
             <div class="row-line"><span>Proximo marco</span><strong>
                 @php
@@ -65,7 +65,7 @@
                     $displayMeta = gla_package_display_meta($package);
                 @endphp
                 <div class="card">
-                    <span class="badge info">VIP {{ $requiredLevel }}</span>
+                    <span class="badge info">{{ gla_level_label($requiredLevel) }}</span>
                     <h4>{{ $displayMeta['name'] }}</h4>
                     <div class="price">{{ price($package->price) }}</div>
                     <p>Ciclo: <strong>{{ $package->validity }} dias</strong></p>
@@ -74,7 +74,7 @@
                         @if($vipLevel >= $requiredLevel)
                             <a class="btn btn-primary" href="{{ route('purchase.confirmation', $package->id) }}">Comprar ciclo</a>
                         @else
-                            <span class="badge warn">Necessario VIP {{ $requiredLevel }}</span>
+                            <span class="badge warn">Necessario {{ gla_level_label($requiredLevel) }}</span>
                         @endif
                         <a class="btn btn-ghost" href="{{ route('package.details', $package->id) }}">Detalhes</a>
                     </div>
@@ -93,7 +93,7 @@
                     $displayMeta = gla_package_display_meta($package);
                 @endphp
                 <div class="card">
-                    <span class="badge warn">Evento VIP {{ $requiredLevel }}</span>
+                    <span class="badge warn">Evento - {{ gla_level_label($requiredLevel) }}</span>
                     <h4>{{ $displayMeta['name'] }}</h4>
                     <div class="price">{{ price($package->price) }}</div>
                     <p>Ciclo: <strong>{{ $package->validity }} dias</strong></p>
@@ -102,7 +102,7 @@
                         @if($vipLevel >= $requiredLevel)
                             <a class="btn btn-primary" href="{{ route('purchase.confirmation', $package->id) }}">Entrar no evento</a>
                         @else
-                            <span class="badge warn">Necessario VIP {{ $requiredLevel }}</span>
+                            <span class="badge warn">Necessario {{ gla_level_label($requiredLevel) }}</span>
                         @endif
                     </div>
                 </div>

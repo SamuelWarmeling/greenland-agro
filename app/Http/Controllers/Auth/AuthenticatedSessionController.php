@@ -4,14 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use App\Models\Deposit;
 use App\Models\User;
-use App\Models\UserLedger;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -42,36 +40,43 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(Request $request){
-       $phone = $this->normalizePhone($request->phone);
-       $user = User::where('phone', $phone)->first();
-
-if (Auth::check()){
+    public function store(LoginRequest $request)
+    {
+        if (Auth::check()) {
             return redirect()->route('dashboard');
         }
 
+        $request->ensureIsNotRateLimited();
 
-       if (!$user){
-           return redirect()->back()->with('error', 'Telefone nao encontrado. Verifique o numero digitado ou crie seu cadastro.');
+        $phone = $this->normalizePhone($request->phone);
+        $user = User::where('phone', $phone)->first();
+
+        if (! $user) {
+            RateLimiter::hit($request->throttleKey());
+
+            return redirect()->back()->withInput($request->only('phone'))->with('error', 'Telefone nao encontrado. Verifique o numero digitado ou crie seu cadastro.');
         }
 
         //Check user ban or unban
-        if ($user->ban_unban == 'ban')
-        {
+        if ($user->ban_unban == 'ban') {
+            RateLimiter::hit($request->throttleKey());
+
             return redirect()->back()->with('error', 'Account ban.');
         }
 
-        if ($user){
-            //Check password
-            if (Hash::check($request->password, $user->password)){
-                Auth::login($user);
-                return redirect()->route('dashboard');
-            }else{
-                return redirect()->back()->with('error', 'Senha incorreta.');
-            }
-        }else{
-            return redirect()->back()->with('error', 'Telefone nao encontrado. Verifique o numero digitado ou crie seu cadastro.');
+        if (! Hash::check($request->password, $user->password)) {
+            RateLimiter::hit($request->throttleKey());
+
+            return redirect()->back()->withInput($request->only('phone'))->with('error', 'Senha incorreta.');
         }
+
+        RateLimiter::clear($request->throttleKey());
+
+        Auth::login($user);
+
+        $request->session()->regenerate();
+
+        return redirect()->route('dashboard');
     }
 
     /**

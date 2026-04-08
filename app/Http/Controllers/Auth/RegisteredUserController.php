@@ -3,27 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Mail\RegistrationMail;
-use App\Models\Admin;
 use App\Models\Checkin;
-use App\Models\Package;
-use App\Models\Purchase;
 use App\Models\User;
-use App\Models\UserLedger;
-use App\Providers\RouteServiceProvider;
-use Carbon\Carbon;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use function GuzzleHttp\Promise\all;
 
 class RegisteredUserController extends Controller
 {
@@ -59,15 +48,24 @@ class RegisteredUserController extends Controller
         $request->merge(['phone' => $phone]);
 
         $validate = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'min:3', 'max:80'],
             'phone' => ['required', 'digits_between:10,11', 'unique:users,phone'],
-            'password' => ['required'],
-            ]);
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'name.required' => 'Informe o nome do produtor.',
+            'phone.required' => 'Informe um telefone valido com DDD.',
+            'phone.unique' => 'Telefone ja cadastrado.',
+            'password.min' => 'A senha precisa ter pelo menos 8 caracteres.',
+            'password.confirmed' => 'A confirmacao de senha nao confere.',
+        ]);
+
         if ($validate->fails()){
             $user = User::where('phone', $request->phone)->first();
             if ($user){
                 return back()->withInput()->with('message', 'Telefone ja cadastrado.');
             }
-            return back()->withInput()->with('message', 'Informe um telefone valido com DDD.');
+
+            return back()->withErrors($validate)->withInput()->with('message', $validate->errors()->first());
         }
 
 
@@ -90,11 +88,13 @@ class RegisteredUserController extends Controller
 //        }
 
         //Check refer code is next time edit
+        $name = trim((string) $request->name);
+
         $user = User::create([
-            'name' => 'User'.rand(22,99),
-            'username' => 'uname'.$request->phone,
+            'name' => $name,
+            'username' => $this->generateUsername($name, $request->phone),
             'ref_id' => $this->ref_code().$this->ref_code(),
-            'ref_by' => $request->ref_by ?? $this->ref_code().$this->ref_code(),
+            'ref_by' => $request->ref_by ?: null,
             'email' => 'user'.rand(11111,99999).time().'@gmail.com',
             'password' => Hash::make($request->password),
             'type' => 'user',
@@ -132,6 +132,19 @@ class RegisteredUserController extends Controller
             $refCode = $rand.$str1;
         }
         return $refCode;
+    }
+
+    protected function generateUsername(string $name, string $phone): string
+    {
+        $base = Str::slug(Str::lower($name), '');
+        $base = $base !== '' ? $base : 'produtor';
+        $candidate = substr($base, 0, 18) . substr($phone, -4);
+
+        while (User::where('username', $candidate)->exists()) {
+            $candidate = substr($base, 0, 14) . rand(1000, 9999);
+        }
+
+        return $candidate;
     }
 
     public function refreshCaptcha()

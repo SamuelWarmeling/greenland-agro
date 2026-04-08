@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\User;
 use App\Models\UserLedger;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PurchaseController extends Controller
 {
@@ -16,80 +17,73 @@ class PurchaseController extends Controller
         session()->put('pop', true);
 
         $package = Package::findOrFail($id);
-        $user = Auth::user();
-        $isFirstPurchase = ! Purchase::where('user_id', $user->id)->exists();
 
         if ($package->status !== 'active') {
             return back()->with('error', 'Plano indisponivel no momento.');
         }
 
-        if ($isFirstPurchase && $package->tab !== 'vip') {
-            return back()->with('error', 'Para ativar a conta e sair do VIP 0, compre primeiro um plano base.');
-        }
+        return DB::transaction(function () use ($package) {
+            $user = User::whereKey(Auth::id())->lockForUpdate()->firstOrFail();
+            $isFirstPurchase = ! Purchase::where('user_id', $user->id)->lockForUpdate()->exists();
 
-        if (! $isFirstPurchase) {
-            if ($package->tab === 'vip') {
-                return back()->with('error', 'Os planos base servem apenas para ativacao inicial.');
+            if ($isFirstPurchase && $package->tab !== 'vip') {
+                return back()->with('error', 'Para ativar a conta e sair do VIP 0, compre primeiro um plano base.');
             }
 
-            $requiredLevel = gla_package_level($package);
-            $currentLevel = gla_user_vip_level($user->id);
+            if (! $isFirstPurchase) {
+                if ($package->tab === 'vip') {
+                    return back()->with('error', 'Os planos base servem apenas para ativacao inicial.');
+                }
 
-            if ($currentLevel < $requiredLevel) {
-                return back()->with('error', "Seu nivel atual nao libera esse ciclo. Necessario VIP {$requiredLevel}.");
+                $requiredLevel = gla_package_level($package);
+                $currentLevel = gla_user_vip_level($user->id);
+
+                if ($currentLevel < $requiredLevel) {
+                    return back()->with('error', 'Seu nivel atual nao libera esse ciclo. Necessario ' . gla_level_label($requiredLevel) . '.');
+                }
+
+                $previousPurchase = Purchase::where('user_id', $user->id)
+                    ->where('package_id', $package->id)
+                    ->lockForUpdate()
+                    ->exists();
+
+                if ($previousPurchase) {
+                    return back()->with('error', 'Cada plano pode ser adquirido apenas uma unica vez.');
+                }
             }
 
-            $previousPurchase = Purchase::where('user_id', $user->id)
-                ->where('package_id', $package->id)
-                ->exists();
-
-            if ($previousPurchase) {
-                return back()->with('error', 'Cada plano pode ser adquirido apenas uma unica vez.');
+            if ($package->price > $user->deposit_balance) {
+                return back()->with('error', 'Saldo de deposito insuficiente.');
             }
 
-            $activePurchase = Purchase::where('user_id', $user->id)
-                ->where('package_id', $package->id)
-                ->where('status', 'active')
-                ->exists();
+            $dailyIncome = round($package->commission_with_avg_amount / max(1, (int) $package->validity), 2);
 
-            if ($activePurchase) {
-                return back()->with('error', 'Voce ja possui esse ciclo ativo.');
-            }
-        }
+            $user->deposit_balance = $user->deposit_balance - $package->price;
+            $user->save();
 
-        if ($package->price > $user->deposit_balance) {
-            return back()->with('error', 'Saldo de deposito insuficiente.');
-        }
+            $purchase = new Purchase();
+            $purchase->user_id = $user->id;
+            $purchase->package_id = $package->id;
+            $purchase->tab = $package->tab;
+            $purchase->amount = $package->price;
+            $purchase->hourly = round($dailyIncome / 24, 4);
+            $purchase->daily_income = $dailyIncome;
+            $purchase->return_total = $package->commission_with_avg_amount;
+            $purchase->date = now()->addHours(24);
+            $purchase->validity = now()->addDays((int) $package->validity);
+            $purchase->status = 'active';
+            $purchase->save();
 
-        $dailyIncome = round($package->commission_with_avg_amount / max(1, (int) $package->validity), 2);
+            $newTotalInvestment = (float) Purchase::where('user_id', $user->id)->sum('amount');
+            $newVipLevel = gla_vip_level_from_total($newTotalInvestment);
 
-        User::where('id', $user->id)->update([
-            'deposit_balance' => $user->deposit_balance - $package->price,
-        ]);
+            $user->package_tab = $newVipLevel > 0 ? 'VIP ' . $newVipLevel : 'VIP 0';
+            $user->save();
 
-        $purchase = new Purchase();
-        $purchase->user_id = Auth::id();
-        $purchase->package_id = $package->id;
-        $purchase->tab = $package->tab;
-        $purchase->amount = $package->price;
-        $purchase->hourly = round($dailyIncome / 24, 4);
-        $purchase->daily_income = $dailyIncome;
-        $purchase->return_total = $package->commission_with_avg_amount;
-        $purchase->date = now()->addHours(24);
-        $purchase->validity = now()->addDays((int) $package->validity);
-        $purchase->status = 'active';
-        $purchase->save();
+            $this->payReferralCommissions($user, $package->price, $isFirstPurchase);
 
-        $newTotalInvestment = gla_user_total_investment($user->id);
-        $newVipLevel = gla_vip_level_from_total($newTotalInvestment);
-
-        User::where('id', $user->id)->update([
-            'package_tab' => $newVipLevel > 0 ? 'VIP ' . $newVipLevel : 'VIP 0',
-        ]);
-
-        $this->payReferralCommissions($user, $package->price, $isFirstPurchase);
-
-        return redirect()->back()->with('success', 'Plano adquirido com sucesso.');
+            return redirect()->back()->with('success', 'Plano adquirido com sucesso.');
+        });
     }
 
 

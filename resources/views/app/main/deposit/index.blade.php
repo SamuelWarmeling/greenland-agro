@@ -3,7 +3,7 @@
 @section('content')
     <section class="hero">
         <h2>Depositos via PIX</h2>
-        <p>O valor minimo para deposito e {{ price(40) }}. Esta area sera usada pela integracao automatica da gateway PIX da GreenLand Agro.</p>
+        <p>O valor minimo para deposito e {{ price(40) }}. Escolha o valor da recarga e acompanhe por aqui o fluxo PIX da sua conta GreenLand Agro.</p>
     </section>
     <section class="section">
         <h3>Escolha o valor</h3>

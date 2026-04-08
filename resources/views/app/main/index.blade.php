@@ -15,7 +15,7 @@
     <section class="stats">
         <div class="stat">
             <span class="subtle">Nivel atual</span>
-            <strong>VIP {{ $vipLevel }}</strong>
+            <strong>{{ gla_level_label($vipLevel) }}</strong>
         </div>
         <div class="stat">
             <span class="subtle">Ativos totais</span>
@@ -65,14 +65,14 @@
             </div>
             <div class="card">
                 <h4>Depositos e comprovantes</h4>
-                <p>Os depositos desta area serao ligados a uma gateway PIX automatica, com confirmacao de pagamento direto na plataforma.</p>
+                <p>Centralize seus depositos em um unico ambiente e acompanhe o processamento das recargas PIX dentro da plataforma.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer deposito</a>
                 </div>
             </div>
             <div class="card">
                 <h4>Saques</h4>
-                <p>Solicitacoes entre 10:00 e 17:00, limite de 1 saque por dia, minimo de {{ price(10) }} e taxa de 10%.</p>
+                <p>Solicitacoes entre 10:00 e 17:00, limite de 1 saque por dia, minimo de {{ price(gla_withdraw_minimum()) }} e taxa de 10%.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('user.withdraw') }}">Ir para saque</a>
                 </div>

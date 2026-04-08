@@ -6,15 +6,7 @@
         $displayName = 'Produtor GreenLand';
     }
 
-    $rawPhone = preg_replace('/\D+/', '', (string) auth()->user()->phone);
-    if (strlen($rawPhone) === 11) {
-        $formattedPhone = preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $rawPhone);
-    } elseif (strlen($rawPhone) === 10) {
-        $formattedPhone = preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $rawPhone);
-    } else {
-        $formattedPhone = auth()->user()->phone ?: '--';
-    }
-
+    $formattedPhone = gla_format_phone(auth()->user()->phone);
     $accountCode = auth()->user()->ref_id ?: '--';
 @endphp
 @section('content')
@@ -44,7 +36,7 @@
         <div class="grid cols-2">
             <a class="card" href="{{ route('user.deposit') }}">
                 <h4>Depositos</h4>
-                <p>Envie comprovantes PIX e acompanhe o processamento da sua recarga.</p>
+                <p>Consulte seus canais de recarga e acompanhe o processamento dos depositos PIX.</p>
             </a>
             <a class="card" href="{{ route('user.withdraw') }}">
                 <h4>Saques</h4>

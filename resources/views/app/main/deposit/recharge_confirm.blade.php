@@ -5,9 +5,9 @@
 @endphp
 @section('content')
     <section class="hero">
-        <span class="badge" style="background:rgba(255,255,255,0.18); color:#fff; margin-bottom:12px;">Gateway PIX automatica</span>
+        <span class="badge" style="background:rgba(255,255,255,0.18); color:#fff; margin-bottom:12px;">Fluxo PIX da plataforma</span>
         <h2>Confirmar deposito</h2>
-        <p>Esta etapa sera conectada a uma gateway PIX automatica. A interface abaixo ja foi ajustada para o fluxo de cobranca automatica da GreenLand Agro.</p>
+        <p>Confira os dados da sua recarga e acompanhe por esta area o processamento do pagamento vinculado a sua conta GreenLand Agro.</p>
     </section>
 
     <section class="section">
@@ -27,23 +27,19 @@
         <div class="card" style="margin-top:14px;">
             <h4>Canal de pagamento</h4>
             <div class="price" style="font-size:1.1rem; word-break:break-word;">{{ $pixKey }}</div>
-            <p class="subtle">Esse campo sera substituido automaticamente pelos dados retornados pela gateway PIX.</p>
+            <p class="subtle">Os dados exibidos acompanham o canal configurado para o seu metodo de deposito.</p>
         </div>
     </section>
 
     <section class="section">
-        <h3>Fluxo previsto da gateway</h3>
+        <h3>Como acompanhar a recarga</h3>
         <div class="card">
             <ul class="list">
-                <li>O sistema vai gerar automaticamente a cobranca PIX.</li>
-                <li>O usuario vai copiar o codigo ou escanear o QR Code dinamico.</li>
-                <li>A confirmacao do pagamento vai voltar da gateway sem envio manual de comprovante.</li>
-                <li>O saldo sera atualizado automaticamente apos confirmacao da transacao.</li>
+                <li>Confira o valor solicitado e o canal de pagamento antes de prosseguir.</li>
+                <li>Use o metodo PIX configurado para concluir a recarga da sua conta.</li>
+                <li>Acompanhe o status da solicitacao pelo historico de depositos.</li>
+                <li>Assim que o pagamento for confirmado, o saldo fica disponivel na plataforma.</li>
             </ul>
-        </div>
-        <div class="card" style="margin-top:16px;">
-            <h4>Status atual</h4>
-            <p>A integracao automatica ainda precisa ser conectada no backend. Quando a gateway for definida, esta etapa passa a gerar cobrancas reais automaticamente.</p>
         </div>
         <div class="actions">
             <a class="btn btn-primary" href="{{ route('user.deposit') }}">Voltar para depositos</a>

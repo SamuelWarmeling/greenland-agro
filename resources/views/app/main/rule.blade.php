@@ -18,10 +18,11 @@
         <h3>Depositos e saques</h3>
         <ul class="list">
             <li>Deposito minimo: {{ price(40) }} via PIX.</li>
-            <li>Saque minimo: {{ price(10) }}.</li>
+            <li>Saque minimo: {{ price(gla_withdraw_minimum()) }}.</li>
             <li>Taxa de saque: 10% sobre o valor solicitado.</li>
             <li>Horario de saque: 10:00 as 17:00.</li>
             <li>Limite de 1 saque por dia.</li>
+            <li>Cada ciclo ou evento pode ser adquirido apenas uma unica vez por usuario.</li>
         </ul>
     </section>
 @endsection

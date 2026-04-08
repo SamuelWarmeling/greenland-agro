@@ -3,7 +3,7 @@
 @section('content')
     <section class="hero">
         <h2>Regras de saque</h2>
-        <p>Solicitacoes das 10:00 as 17:00, limite de 1 saque por dia, valor minimo de {{ price(10) }} e taxa fixa de 10%.</p>
+        <p>Solicitacoes das 10:00 as 17:00, limite de 1 saque por dia, valor minimo de {{ price(gla_withdraw_minimum()) }} e taxa fixa de 10%.</p>
     </section>
     <section class="section">
         <h3>Solicitar saque</h3>
@@ -15,7 +15,7 @@
             @csrf
             <div class="field">
                 <label for="amount">Valor do saque</label>
-                <input id="amount" name="amount" type="number" min="10" step="0.01" placeholder="Minimo de R$ 10,00" required>
+                <input id="amount" name="amount" type="number" min="{{ gla_withdraw_minimum() }}" step="0.01" placeholder="Minimo de {{ price(gla_withdraw_minimum()) }}" required>
                 <small>Processamento medio: 2 a 48 horas.</small>
             </div>
             <div class="field">

@@ -114,6 +114,11 @@
             <form method="POST" action="{{ url('register') }}">
                 @csrf
                 <div class="field">
+                    <label for="name">Nome do produtor</label>
+                    <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Digite seu nome completo" required>
+                    <div class="hint">Esse nome sera usado nas areas internas da sua conta e da sua rede.</div>
+                </div>
+                <div class="field">
                     <label for="phone">Numero de telefone</label>
                     <input id="phone" name="phone" type="text" inputmode="numeric" value="{{ old('phone') }}" placeholder="Digite seu telefone" required>
                     <div class="hint">Use um numero valido para acesso e recuperacao da sua conta.</div>
@@ -121,6 +126,11 @@
                 <div class="field">
                     <label for="password">Senha</label>
                     <input id="password" name="password" type="password" placeholder="Crie uma senha de acesso" required>
+                    <div class="hint">Use pelo menos 8 caracteres para deixar sua conta mais protegida.</div>
+                </div>
+                <div class="field">
+                    <label for="password_confirmation">Confirmar senha</label>
+                    <input id="password_confirmation" name="password_confirmation" type="password" placeholder="Repita a sua senha" required>
                 </div>
                 <div class="field">
                     <label for="ref_by">Codigo de indicacao</label>

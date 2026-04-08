@@ -4,6 +4,7 @@
     $inviteCode = auth()->user()->ref_id;
     $formattedInviteCode = trim(chunk_split($inviteCode, 3, ' '));
     $inviteLink = url('/register') . '?member=' . $inviteCode;
+    $whatsAppShareLink = 'https://wa.me/?text=' . rawurlencode("Entre na GreenLand Agro usando meu link de convite: {$inviteLink}");
 @endphp
 @section('content')
     <section class="hero">
@@ -44,6 +45,9 @@
                 >
                     Copiar link
                 </button>
+                <a class="btn btn-primary" href="{{ $whatsAppShareLink }}" target="_blank" rel="noopener">
+                    Compartilhar no WhatsApp
+                </a>
             </div>
         </div>
     </section>

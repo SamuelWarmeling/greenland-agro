@@ -5,8 +5,10 @@
     }
 
     $headerIdentifier = auth()->user()->phone
-        ? 'Telefone ' . auth()->user()->phone
+        ? 'Telefone ' . gla_format_phone(auth()->user()->phone)
         : 'Codigo ' . (auth()->user()->ref_id ?: '--');
+
+    $headerLevel = gla_level_label(gla_user_vip_level(auth()->user()));
 @endphp
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -330,7 +332,7 @@
             </a>
         </div>
         <div class="meta">
-            <strong>{{ auth()->user()->package_tab ?: 'VIP 0' }}</strong><br>
+            <strong>{{ $headerLevel }}</strong><br>
             {{ $headerIdentifier }}
         </div>
     </div>

@@ -335,6 +335,39 @@ if (! function_exists('gla_checkin_amount')) {
     }
 }
 
+if (! function_exists('gla_withdraw_minimum')) {
+    function gla_withdraw_minimum()
+    {
+        return 20.00;
+    }
+}
+
+if (! function_exists('gla_format_phone')) {
+    function gla_format_phone($phone)
+    {
+        $digits = preg_replace('/\D+/', '', (string) $phone);
+
+        if (strlen($digits) === 11) {
+            return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $digits);
+        }
+
+        if (strlen($digits) === 10) {
+            return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $digits);
+        }
+
+        return $phone ?: '--';
+    }
+}
+
+if (! function_exists('gla_level_label')) {
+    function gla_level_label($level)
+    {
+        $level = (int) $level;
+
+        return 'Nivel ' . $level;
+    }
+}
+
 if (! function_exists('gla_base_plan_catalog')) {
     function gla_base_plan_catalog()
     {
