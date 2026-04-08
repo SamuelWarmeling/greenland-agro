@@ -1,7 +1,11 @@
 @extends('app.layout.gla')
 @php
     $pageTitle = 'Planos';
-    $basePlans = \App\Models\Package::where('tab', 'vip')->where('status', 'active')->orderBy('price')->get();
+    $basePlans = \App\Models\Package::where('tab', 'vip')
+        ->where('status', 'active')
+        ->where('validity', 40)
+        ->orderBy('price')
+        ->get();
     $cyclePlans = \App\Models\Package::where('tab', 'fixed')->where('status', 'active')->orderBy('price')->get();
     $eventPlans = \App\Models\Package::where('tab', 'event')->where('status', 'active')->orderBy('price')->get();
     $vipLevel = gla_user_vip_level(auth()->id());
