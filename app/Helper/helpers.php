@@ -339,8 +339,8 @@ if (! function_exists('gla_base_plan_catalog')) {
     function gla_base_plan_catalog()
     {
         return [
-            ['name' => 'Semente', 'photo' => '/public/upload/package/gla/semente.jpeg'],
-            ['name' => 'Broto', 'photo' => '/public/upload/package/gla/broto.jpeg'],
+            ['name' => 'Semente', 'photo' => null],
+            ['name' => 'Broto', 'photo' => null],
             ['name' => 'Cultivo', 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
             ['name' => 'Safrinha', 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
             ['name' => 'Safra', 'photo' => '/public/upload/package/gla/safra.jpeg'],
@@ -378,7 +378,7 @@ if (! function_exists('gla_package_display_meta')) {
 
         return [
             'name' => $catalog[$position]['name'],
-            'photo' => $catalog[$position]['photo'],
+            'photo' => $catalog[$position]['photo'] ?: $fallback['photo'],
         ];
     }
 }

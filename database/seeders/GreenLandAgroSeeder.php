@@ -47,8 +47,8 @@ class GreenLandAgroSeeder extends Seeder
         );
 
         $plans = [
-            ['name' => 'Semente', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'commission_with_avg_amount' => 240, 'photo' => '/public/upload/package/gla/semente.jpeg'],
-            ['name' => 'Broto', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'commission_with_avg_amount' => 480, 'photo' => '/public/upload/package/gla/broto.jpeg'],
+            ['name' => 'Semente', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 40, 'validity' => 40, 'photo' => null, 'commission_with_avg_amount' => 240],
+            ['name' => 'Broto', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 80, 'validity' => 40, 'photo' => null, 'commission_with_avg_amount' => 480],
             ['name' => 'Cultivo', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 120, 'validity' => 40, 'commission_with_avg_amount' => 720, 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
             ['name' => 'Safrinha', 'label' => 'VIP 1', 'tab' => 'vip', 'price' => 240, 'validity' => 40, 'commission_with_avg_amount' => 1440, 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
             ['name' => 'Ciclo VIP 1', 'label' => 'VIP 1', 'tab' => 'fixed', 'price' => 40, 'validity' => 3, 'commission_with_avg_amount' => 60],
@@ -72,19 +72,35 @@ class GreenLandAgroSeeder extends Seeder
         ];
 
         foreach ($plans as $plan) {
-            Package::updateOrCreate(
-                ['tab' => $plan['tab'], 'price' => $plan['price'], 'validity' => $plan['validity']],
-                array_merge($plan, [
-                    'package_id' => null,
-                    'photo' => $plan['photo'] ?? '/public/assets/img/logo.png',
-                    'ref1' => 20,
-                    'ref2' => 7,
-                    'ref3' => 1,
-                    'status' => 'active',
-                    'is_default' => '0',
-                    'desc' => 'Plano GreenLand Agro configurado para a estrategia GLA.',
-                ])
-            );
+            $package = Package::firstOrNew([
+                'tab' => $plan['tab'],
+                'price' => $plan['price'],
+                'validity' => $plan['validity'],
+            ]);
+
+            $package->fill([
+                'name' => $plan['name'],
+                'label' => $plan['label'],
+                'tab' => $plan['tab'],
+                'price' => $plan['price'],
+                'validity' => $plan['validity'],
+                'commission_with_avg_amount' => $plan['commission_with_avg_amount'],
+                'package_id' => null,
+                'ref1' => 20,
+                'ref2' => 7,
+                'ref3' => 1,
+                'status' => 'active',
+                'is_default' => '0',
+                'desc' => 'Plano GreenLand Agro configurado para a estrategia GLA.',
+            ]);
+
+            if (! empty($plan['photo'])) {
+                $package->photo = $plan['photo'];
+            } elseif (! $package->exists && empty($package->photo)) {
+                $package->photo = '/public/assets/img/logo.png';
+            }
+
+            $package->save();
         }
     }
 }
