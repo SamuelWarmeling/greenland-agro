@@ -67,6 +67,11 @@
             align-items: center;
             gap: 14px;
         }
+        .brand-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+        }
         .brand-mark {
             width: 64px;
             height: 64px;
@@ -314,13 +319,15 @@
 <div class="shell">
     <div class="topbar">
         <div class="brand">
-            <div class="brand-mark">
-                <img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro">
-            </div>
-            <div>
-                <h1>GreenLand Agro</h1>
-                <p>Inovacao que cultiva o futuro</p>
-            </div>
+            <a href="{{ route('dashboard') }}" class="brand-link" aria-label="Voltar para a tela inicial">
+                <div class="brand-mark">
+                    <img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro">
+                </div>
+                <div>
+                    <h1>GreenLand Agro</h1>
+                    <p>Inovacao que cultiva o futuro</p>
+                </div>
+            </a>
         </div>
         <div class="meta">
             <strong>{{ auth()->user()->package_tab ?: 'VIP 0' }}</strong><br>
