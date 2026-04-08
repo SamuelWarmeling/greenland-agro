@@ -100,6 +100,11 @@
             margin: 0;
             color: var(--gla-muted);
         }
+        .meta {
+            text-align: right;
+            font-size: 0.98rem;
+            line-height: 1.35;
+        }
         .hero {
             background: linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);
             border-radius: 28px;
@@ -189,6 +194,58 @@
             font-size: 1.6rem;
             color: var(--gla-blue-dark);
         }
+        .compact-stats {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .compact-stat {
+            padding: 14px 15px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fff 0%, #f7fafc 100%);
+            border: 1px solid var(--gla-border);
+        }
+        .compact-stat strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 1.18rem;
+            color: var(--gla-blue-dark);
+        }
+        .mobile-cards {
+            display: grid;
+            gap: 12px;
+        }
+        .quick-actions {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .quick-action {
+            border: 1px solid var(--gla-border);
+            background: linear-gradient(180deg, #fff 0%, #f8fbfd 100%);
+            border-radius: 18px;
+            padding: 16px;
+        }
+        .quick-action strong {
+            display: block;
+            color: var(--gla-blue-dark);
+            margin-bottom: 6px;
+        }
+        .progress-shell {
+            margin-top: 16px;
+            display: grid;
+            gap: 8px;
+        }
+        .progress-track {
+            height: 12px;
+            border-radius: 999px;
+            background: #e6eef2;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);
+        }
         .actions {
             display: flex;
             flex-wrap: wrap;
@@ -250,6 +307,49 @@
             border-bottom: 1px solid var(--gla-border);
         }
         .row-line:last-child { border-bottom: 0; }
+        .stack-list {
+            display: grid;
+            gap: 12px;
+        }
+        .stack-item {
+            border: 1px solid var(--gla-border);
+            border-radius: 18px;
+            background: linear-gradient(180deg, #fff 0%, #f8fbfd 100%);
+            padding: 16px;
+        }
+        .stack-item-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .stack-item-head strong {
+            color: var(--gla-blue-dark);
+            font-size: 1rem;
+        }
+        .pill-status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: fit-content;
+            border-radius: 999px;
+            padding: 6px 10px;
+            font-size: 0.76rem;
+            font-weight: 700;
+        }
+        .pill-status.approved {
+            background: rgba(34, 197, 94, 0.14);
+            color: #0f7a37;
+        }
+        .pill-status.pending {
+            background: rgba(250, 204, 21, 0.18);
+            color: #9a6b00;
+        }
+        .pill-status.rejected {
+            background: rgba(220, 38, 38, 0.12);
+            color: #991b1b;
+        }
         .flash {
             margin-bottom: 16px;
             padding: 14px 16px;
@@ -368,14 +468,80 @@
                 grid-template-columns: 1fr;
             }
             .topbar {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-direction: row;
+                align-items: center;
+                padding: 14px 14px;
+                gap: 12px;
+            }
+            .brand-link { gap: 10px; }
+            .brand-mark {
+                width: 50px;
+                height: 50px;
+                border-radius: 14px;
+            }
+            .brand h1 { font-size: 1rem; }
+            .brand p { font-size: 0.86rem; }
+            .meta {
+                font-size: 0.84rem;
+                text-align: right;
+            }
+            .section {
+                padding: 18px 16px;
+                border-radius: 20px;
+            }
+            .hero {
+                border-radius: 22px;
+                padding: 22px 18px;
             }
             .hero h2 { font-size: 1.45rem; }
+            .compact-stats,
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            .actions .btn {
+                width: 100%;
+            }
         }
         @media (max-width: 560px) {
             .shell {
                 padding: 16px 12px 98px;
+            }
+            .topbar {
+                border-radius: 18px;
+            }
+            .brand {
+                min-width: 0;
+            }
+            .brand-link {
+                min-width: 0;
+            }
+            .brand-link > div:last-child {
+                min-width: 0;
+            }
+            .brand h1,
+            .brand p,
+            .meta {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .hero p,
+            .section p,
+            .field small,
+            .subtle {
+                font-size: 0.92rem;
+            }
+            .card,
+            .stat,
+            .compact-stat,
+            .quick-action,
+            .stack-item {
+                padding: 14px;
+                border-radius: 16px;
+            }
+            .row-line {
+                padding: 10px 0;
+                font-size: 0.94rem;
             }
             .nav-bottom {
                 width: calc(100% - 16px);

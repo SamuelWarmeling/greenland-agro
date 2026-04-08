@@ -20,25 +20,32 @@
                 </div>
             </div>
         @else
-            <div class="grid">
+            <div class="stack-list">
                 @foreach($withdrawals as $withdrawal)
-                    <div class="card">
-                        <div class="row-line"><span>Valor solicitado</span><strong>{{ price($withdrawal->amount) }}</strong></div>
-                        <div class="row-line"><span>Liquido estimado</span><strong>{{ price($withdrawal->final_amount) }}</strong></div>
-                        <div class="row-line"><span>Taxa</span><strong>{{ price($withdrawal->charge) }}</strong></div>
-                        <div class="row-line"><span>Metodo</span><strong>{{ $withdrawal->method_name ?: 'PIX' }}</strong></div>
-                        <div class="row-line"><span>Data</span><strong>{{ optional($withdrawal->created_at)->format('d/m/Y H:i') }}</strong></div>
-                        <div class="row-line"><span>Status</span><strong>
-                            @if($withdrawal->status === 'approved')
-                                Aprovado
-                            @elseif($withdrawal->status === 'pending')
-                                Em analise
-                            @elseif($withdrawal->status === 'rejected')
-                                Rejeitado
-                            @else
-                                {{ ucfirst($withdrawal->status) }}
-                            @endif
-                        </strong></div>
+                    <div class="stack-item">
+                        <div class="stack-item-head">
+                            <div>
+                                <strong>{{ price($withdrawal->amount) }}</strong>
+                                <div class="subtle">{{ $withdrawal->method_name ?: 'PIX' }} • {{ optional($withdrawal->created_at)->format('d/m/Y H:i') }}</div>
+                            </div>
+                            <span class="pill-status {{ $withdrawal->status === 'approved' ? 'approved' : ($withdrawal->status === 'pending' ? 'pending' : 'rejected') }}">
+                                @if($withdrawal->status === 'approved')
+                                    Aprovado
+                                @elseif($withdrawal->status === 'pending')
+                                    Em analise
+                                @elseif($withdrawal->status === 'rejected')
+                                    Rejeitado
+                                @else
+                                    {{ ucfirst($withdrawal->status) }}
+                                @endif
+                            </span>
+                        </div>
+                        <div class="table-like">
+                            <div class="row-line"><span>Liquido estimado</span><strong>{{ price($withdrawal->final_amount) }}</strong></div>
+                            <div class="row-line"><span>Taxa</span><strong>{{ price($withdrawal->charge) }}</strong></div>
+                            <div class="row-line"><span>Metodo</span><strong>{{ $withdrawal->method_name ?: 'PIX' }}</strong></div>
+                            <div class="row-line"><span>Data</span><strong>{{ optional($withdrawal->created_at)->format('d/m/Y H:i') }}</strong></div>
+                        </div>
                     </div>
                 @endforeach
             </div>

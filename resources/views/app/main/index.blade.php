@@ -28,32 +28,58 @@
         <p>A GreenLand Agro combina inteligencia de dados, automacao e estrategia de crescimento em ciclos para uma experiencia mais clara, progressiva e organizada dentro da plataforma.</p>
     </section>
 
-    <section class="stats">
-        <div class="stat">
+    <section class="compact-stats">
+        <div class="compact-stat">
             <span class="subtle">Saldo disponivel</span>
             <strong>{{ price($balanceAvailable) }}</strong>
         </div>
-        <div class="stat">
+        <div class="compact-stat">
             <span class="subtle">Nivel atual</span>
             <strong>{{ gla_level_label($vipLevel) }}</strong>
         </div>
-        <div class="stat">
+        <div class="compact-stat">
             <span class="subtle">Ativos totais</span>
             <strong>{{ price($totalInvestment) }}</strong>
         </div>
-        <div class="stat">
+        <div class="compact-stat">
             <span class="subtle">Ciclos ativos</span>
             <strong>{{ $activeCycles }}</strong>
         </div>
-        <div class="stat">
+        <div class="compact-stat">
             <span class="subtle">Saques pendentes</span>
             <strong>{{ $pendingWithdraws }}</strong>
+        </div>
+        <div class="compact-stat">
+            <span class="subtle">Janela de saque</span>
+            <strong>{{ $withdrawWindowOpen ? 'Aberta' : 'Fechada' }}</strong>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3>Acoes rapidas</h3>
+        <div class="quick-actions">
+            <a class="quick-action" href="{{ route('vip') }}">
+                <strong>Ativar etapa</strong>
+                <span class="subtle">Escolha sua etapa de entrada ou avance no proximo ciclo.</span>
+            </a>
+            <a class="quick-action" href="{{ route('user.deposit') }}">
+                <strong>Fazer deposito</strong>
+                <span class="subtle">Acesse o fluxo PIX e acompanhe a entrada do valor na plataforma.</span>
+            </a>
+            <a class="quick-action" href="{{ route('user.withdraw') }}">
+                <strong>Solicitar saque</strong>
+                <span class="subtle">Consulte regras, confira sua chave PIX e acompanhe o prazo.</span>
+            </a>
+            <a class="quick-action" href="{{ route('user.invite') }}">
+                <strong>Compartilhar convite</strong>
+                <span class="subtle">Copie seu codigo, divulgue o link e fortaleça sua rede.</span>
+            </a>
         </div>
     </section>
 
     <section class="section">
         <h3>Seus proximos passos</h3>
-        <div class="grid cols-2">
+        <div class="mobile-cards">
             @foreach($onboardingSteps as $step)
                 <div class="card">
                     <span class="badge {{ $step['done'] ? '' : 'info' }}">{{ $step['done'] ? 'Concluido' : 'Pendente' }}</span>
@@ -82,9 +108,10 @@
             @endif
         </div>
         @if($nextThreshold)
-            <div style="margin-top:16px;">
-                <div style="height:12px; border-radius:999px; background:#e6eef2; overflow:hidden;">
-                    <div style="width:{{ $progressPercent }}%; height:100%; background:linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);"></div>
+            <div class="progress-shell">
+                <span class="subtle">Avanco atual para o proximo marco</span>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width:{{ $progressPercent }}%;"></div>
                 </div>
             </div>
         @endif
@@ -97,7 +124,7 @@
 
     <section class="section">
         <h3>Destaques do GLA</h3>
-        <div class="grid cols-2">
+        <div class="mobile-cards">
             <div class="card">
                 <h4>Check-in diario</h4>
                 <p>Receba {{ price(gla_checkin_amount()) }} por dia ao acessar a plataforma e confirmar seu check-in.</p>
@@ -137,7 +164,7 @@
                 <p>Os compartilhamentos validados dos usuarios vao aparecer aqui para reforcar a credibilidade e mostrar o movimento real da plataforma.</p>
             </div>
         @else
-            <div class="grid">
+            <div class="mobile-cards">
                 @foreach($latestProofs as $proof)
                     <div class="card">
                         <div class="badge info" style="margin-bottom:12px;">Compartilhamento validado</div>

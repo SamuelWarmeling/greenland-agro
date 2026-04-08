@@ -5,12 +5,25 @@
         <h2>Depositos via PIX</h2>
         <p>O valor minimo para deposito e {{ price(40) }}. Escolha o valor da recarga e acompanhe por aqui o fluxo PIX da sua conta GreenLand Agro.</p>
     </section>
+    <section class="compact-stats">
+        <div class="compact-stat">
+            <span class="subtle">Minimo por deposito</span>
+            <strong>{{ price(40) }}</strong>
+        </div>
+        <div class="compact-stat">
+            <span class="subtle">Status do fluxo</span>
+            <strong>PIX em operacao</strong>
+        </div>
+    </section>
     <section class="section">
         <h3>Escolha o valor</h3>
-        <div class="actions">
+        <div class="quick-actions">
             @foreach([40, 80, 120, 240] as $preset)
                 @if($methods->first())
-                    <a class="btn btn-secondary" href="{{ route('user.deposit.amount', [$preset, $methods->first()->id]) }}">{{ price($preset) }}</a>
+                    <a class="quick-action" href="{{ route('user.deposit.amount', [$preset, $methods->first()->id]) }}">
+                        <strong>{{ price($preset) }}</strong>
+                        <span class="subtle">Acesso rapido para iniciar esse deposito.</span>
+                    </a>
                 @endif
             @endforeach
         </div>

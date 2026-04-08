@@ -9,12 +9,20 @@
     </section>
     <section class="section">
         <h3>Forca da sua rede</h3>
-        <div class="stats">
-            <div class="stat"><span class="subtle">Convidados diretos</span><strong>{{ $teamSize }}</strong></div>
-            <div class="stat"><span class="subtle">Convidados ativos</span><strong>{{ $activeInvitees }}</strong></div>
-            <div class="stat"><span class="subtle">Proxima meta da rede</span><strong>{{ $nextInviteGoal ? $nextInviteGoal . ' membros' : 'Meta premium' }}</strong></div>
-            <div class="stat"><span class="subtle">Faltam para bater a meta</span><strong>{{ $nextInviteGoal ? $nextInviteGap : 0 }}</strong></div>
+        <div class="compact-stats">
+            <div class="compact-stat"><span class="subtle">Convidados diretos</span><strong>{{ $teamSize }}</strong></div>
+            <div class="compact-stat"><span class="subtle">Convidados ativos</span><strong>{{ $activeInvitees }}</strong></div>
+            <div class="compact-stat"><span class="subtle">Proxima meta da rede</span><strong>{{ $nextInviteGoal ? $nextInviteGoal . ' membros' : 'Meta premium' }}</strong></div>
+            <div class="compact-stat"><span class="subtle">Faltam para bater a meta</span><strong>{{ $nextInviteGoal ? $nextInviteGap : 0 }}</strong></div>
         </div>
+        @if($nextInviteGoal)
+            <div class="progress-shell">
+                <span class="subtle">Avanco atual da sua rede</span>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width:{{ min(100, round(($teamSize / $nextInviteGoal) * 100)) }}%;"></div>
+                </div>
+            </div>
+        @endif
     </section>
     <section class="section">
         <h3>Seu codigo de convite</h3>
@@ -58,7 +66,7 @@
     </section>
     <section class="section">
         <h3>Regras de comissao</h3>
-        <div class="grid cols-2">
+        <div class="mobile-cards">
             <div class="card">
                 <h4>Primeira compra do indicado</h4>
                 <ul class="list">

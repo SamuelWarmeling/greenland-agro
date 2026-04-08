@@ -8,6 +8,16 @@
         <h2>Regras de saque</h2>
         <p>Solicitacoes das 10:00 as 17:00, limite de 1 saque por dia, valor minimo de {{ price(gla_withdraw_minimum()) }} e taxa fixa de 10%.</p>
     </section>
+    <section class="compact-stats">
+        <div class="compact-stat">
+            <span class="subtle">Saldo disponivel</span>
+            <strong>{{ price(auth()->user()->balance) }}</strong>
+        </div>
+        <div class="compact-stat">
+            <span class="subtle">Chave PIX</span>
+            <strong>{{ filled(auth()->user()->gateway_number) ? 'Cadastrada' : 'Pendente' }}</strong>
+        </div>
+    </section>
     <section class="section">
         <h3>Solicitar saque</h3>
         <div class="table-like">

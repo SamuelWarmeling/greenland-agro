@@ -20,23 +20,30 @@
                 </div>
             </div>
         @else
-            <div class="grid">
+            <div class="stack-list">
                 @foreach($deposits as $deposit)
-                    <div class="card">
-                        <div class="row-line"><span>Valor</span><strong>{{ price($deposit->amount) }}</strong></div>
-                        <div class="row-line"><span>Metodo</span><strong>{{ $deposit->method_name ?: 'PIX' }}</strong></div>
-                        <div class="row-line"><span>Data</span><strong>{{ optional($deposit->created_at)->format('d/m/Y H:i') }}</strong></div>
-                        <div class="row-line"><span>Status</span><strong>
-                            @if($deposit->status === 'approved')
-                                Aprovado
-                            @elseif($deposit->status === 'pending')
-                                Em analise
-                            @elseif($deposit->status === 'rejected')
-                                Rejeitado
-                            @else
-                                {{ ucfirst($deposit->status) }}
-                            @endif
-                        </strong></div>
+                    <div class="stack-item">
+                        <div class="stack-item-head">
+                            <div>
+                                <strong>{{ price($deposit->amount) }}</strong>
+                                <div class="subtle">{{ $deposit->method_name ?: 'PIX' }} • {{ optional($deposit->created_at)->format('d/m/Y H:i') }}</div>
+                            </div>
+                            <span class="pill-status {{ $deposit->status === 'approved' ? 'approved' : ($deposit->status === 'pending' ? 'pending' : 'rejected') }}">
+                                @if($deposit->status === 'approved')
+                                    Aprovado
+                                @elseif($deposit->status === 'pending')
+                                    Em analise
+                                @elseif($deposit->status === 'rejected')
+                                    Rejeitado
+                                @else
+                                    {{ ucfirst($deposit->status) }}
+                                @endif
+                            </span>
+                        </div>
+                        <div class="table-like">
+                            <div class="row-line"><span>Metodo</span><strong>{{ $deposit->method_name ?: 'PIX' }}</strong></div>
+                            <div class="row-line"><span>Data</span><strong>{{ optional($deposit->created_at)->format('d/m/Y H:i') }}</strong></div>
+                        </div>
                         @if($deposit->transaction_id)
                             <div class="row-line"><span>Transacao</span><strong>{{ $deposit->transaction_id }}</strong></div>
                         @endif

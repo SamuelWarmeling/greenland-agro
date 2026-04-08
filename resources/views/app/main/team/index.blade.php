@@ -12,11 +12,11 @@
 
     <section class="section">
         <h3>Visao geral</h3>
-        <div class="stats">
-            <div class="stat"><span class="subtle">Total de membros</span><strong>{{ $team_size }}</strong></div>
-            <div class="stat"><span class="subtle">Depositos aprovados</span><strong>R$ {{ number_format($lvTotalDeposit, 2, ',', '.') }}</strong></div>
-            <div class="stat"><span class="subtle">Saques aprovados</span><strong>R$ {{ number_format($lvTotalWithdraw, 2, ',', '.') }}</strong></div>
-            <div class="stat"><span class="subtle">Investimento da rede</span><strong>R$ {{ number_format($totalInvestment, 2, ',', '.') }}</strong></div>
+        <div class="compact-stats">
+            <div class="compact-stat"><span class="subtle">Total de membros</span><strong>{{ $team_size }}</strong></div>
+            <div class="compact-stat"><span class="subtle">Depositos aprovados</span><strong>R$ {{ number_format($lvTotalDeposit, 2, ',', '.') }}</strong></div>
+            <div class="compact-stat"><span class="subtle">Saques aprovados</span><strong>R$ {{ number_format($lvTotalWithdraw, 2, ',', '.') }}</strong></div>
+            <div class="compact-stat"><span class="subtle">Investimento da rede</span><strong>R$ {{ number_format($totalInvestment, 2, ',', '.') }}</strong></div>
         </div>
     </section>
 
@@ -28,9 +28,10 @@
             <div class="row-line"><span>Faltam para chegar la</span><strong>{{ $nextNetworkGoal ? max($nextNetworkGoal - $team_size, 0) : 0 }}</strong></div>
         </div>
         @if($nextNetworkGoal)
-            <div style="margin-top:16px;">
-                <div style="height:12px; border-radius:999px; background:#e6eef2; overflow:hidden;">
-                    <div style="width:{{ min(100, round(($team_size / $nextNetworkGoal) * 100)) }}%; height:100%; background:linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);"></div>
+            <div class="progress-shell">
+                <span class="subtle">Avanco atual da equipe para a proxima meta</span>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width:{{ min(100, round(($team_size / $nextNetworkGoal) * 100)) }}%;"></div>
                 </div>
             </div>
         @endif
@@ -41,7 +42,7 @@
 
     <section class="section">
         <h3>Desempenho por nivel</h3>
-        <div class="grid">
+        <div class="mobile-cards">
             <div class="card">
                 <h4>Nivel 1</h4>
                 <div class="table-like">
