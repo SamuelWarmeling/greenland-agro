@@ -1,15 +1,34 @@
 @extends('app.layout.gla')
 @php
     $pageTitle = 'Convites';
-    $inviteCode = auth()->user()->ref_id;
+    $user = auth()->user();
+    $inviteCode = $user->ref_id;
     $formattedInviteCode = trim(chunk_split($inviteCode, 3, ' '));
     $inviteLink = url('/register') . '?member=' . $inviteCode;
     $whatsAppShareLink = 'https://wa.me/?text=' . rawurlencode("Entre na GreenLand Agro usando meu link de convite: {$inviteLink}");
+    $directInviteIds = \App\Models\User::where('ref_by', $inviteCode)->pluck('id');
+    $teamSize = $directInviteIds->count();
+    $activeInvitees = \App\Models\Deposit::whereIn('user_id', $directInviteIds)
+        ->where('status', 'approved')
+        ->groupBy('user_id')
+        ->get()
+        ->count();
+    $nextInviteGoal = collect([3, 5, 10, 20, 50])->first(fn($goal) => $goal > $teamSize);
+    $nextInviteGap = $nextInviteGoal ? $nextInviteGoal - $teamSize : 0;
 @endphp
 @section('content')
     <section class="hero">
         <h2>Sistema de convites</h2>
         <p>Convide novos usuarios e construa sua rede com bonus especiais na primeira compra e comissoes reduzidas nas compras seguintes.</p>
+    </section>
+    <section class="section">
+        <h3>Forca da sua rede</h3>
+        <div class="stats">
+            <div class="stat"><span class="subtle">Convidados diretos</span><strong>{{ $teamSize }}</strong></div>
+            <div class="stat"><span class="subtle">Convidados ativos</span><strong>{{ $activeInvitees }}</strong></div>
+            <div class="stat"><span class="subtle">Proxima meta da rede</span><strong>{{ $nextInviteGoal ? $nextInviteGoal . ' membros' : 'Meta premium' }}</strong></div>
+            <div class="stat"><span class="subtle">Faltam para bater a meta</span><strong>{{ $nextInviteGoal ? $nextInviteGap : 0 }}</strong></div>
+        </div>
     </section>
     <section class="section">
         <h3>Seu codigo de convite</h3>
@@ -72,6 +91,7 @@
             </div>
         </div>
         <div class="actions">
+            <a class="btn btn-primary" href="{{ $whatsAppShareLink }}" target="_blank" rel="noopener">Divulgar no WhatsApp</a>
             <a class="btn btn-secondary" href="{{ route('user.team') }}">Ver minha equipe</a>
         </div>
     </section>

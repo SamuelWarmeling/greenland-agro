@@ -180,8 +180,12 @@ Route::middleware('throttle:limit-check')->group(function (){
     */
 
     Route::get('/', function(){
-        return redirect()->route('login');
-    });
+        if (auth()->check()) {
+            return redirect()->route('dashboard');
+        }
+
+        return view('landing');
+    })->name('landing');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', function (){

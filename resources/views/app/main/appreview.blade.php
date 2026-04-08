@@ -1,5 +1,8 @@
 @extends('app.layout.gla')
-@php $pageTitle = 'Compartilhar saque'; @endphp
+@php
+    $pageTitle = 'Compartilhar saque';
+    $recentProofs = \App\Models\SocialProof::with('user')->where('status', 'approved')->latest()->take(4)->get();
+@endphp
 @section('content')
     <section class="hero">
         <h2>Compartilhe suas conquistas</h2>
@@ -20,5 +23,25 @@
             </div>
             <button class="btn btn-primary" type="submit">Enviar para validacao</button>
         </form>
+    </section>
+    <section class="section">
+        <h3>Vitrine da comunidade</h3>
+        @if($recentProofs->isEmpty())
+            <div class="card">
+                <h4>Primeiras conquistas em destaque</h4>
+                <p>Assim que os compartilhamentos forem validados pela equipe, os depoimentos e conquistas recentes vao aparecer aqui para fortalecer a credibilidade da comunidade.</p>
+            </div>
+        @else
+            <div class="grid cols-2">
+                @foreach($recentProofs as $proof)
+                    <div class="card">
+                        <div class="badge info" style="margin-bottom:12px;">Conquista validada</div>
+                        <h4>{{ $proof->user->name ?: 'Produtor GreenLand' }}</h4>
+                        <p>{{ $proof->message ?: 'Compartilhamento validado pela equipe GreenLand Agro.' }}</p>
+                        <small class="subtle">Bonus recebido: {{ price($proof->payout_amount) }}</small>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </section>
 @endsection

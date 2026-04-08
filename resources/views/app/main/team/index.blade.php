@@ -1,5 +1,8 @@
 @extends('app.layout.gla')
-@php $pageTitle = 'Minha Equipe'; @endphp
+@php
+    $pageTitle = 'Minha Equipe';
+    $nextNetworkGoal = collect([5, 10, 20, 50, 100])->first(fn($goal) => $goal > $team_size);
+@endphp
 @section('content')
     <section class="hero">
         <span class="badge" style="background:rgba(255,255,255,0.18); color:#fff; margin-bottom:12px;">Rede GreenLand</span>
@@ -14,6 +17,25 @@
             <div class="stat"><span class="subtle">Depositos aprovados</span><strong>R$ {{ number_format($lvTotalDeposit, 2, ',', '.') }}</strong></div>
             <div class="stat"><span class="subtle">Saques aprovados</span><strong>R$ {{ number_format($lvTotalWithdraw, 2, ',', '.') }}</strong></div>
             <div class="stat"><span class="subtle">Investimento da rede</span><strong>R$ {{ number_format($totalInvestment, 2, ',', '.') }}</strong></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h3>Meta da sua rede</h3>
+        <div class="table-like">
+            <div class="row-line"><span>Membros ativos na rede</span><strong>{{ $activeMembers1 + $activeMembers2 + $activeMembers3 }}</strong></div>
+            <div class="row-line"><span>Proxima meta</span><strong>{{ $nextNetworkGoal ? $nextNetworkGoal . ' membros' : 'Escala consolidada' }}</strong></div>
+            <div class="row-line"><span>Faltam para chegar la</span><strong>{{ $nextNetworkGoal ? max($nextNetworkGoal - $team_size, 0) : 0 }}</strong></div>
+        </div>
+        @if($nextNetworkGoal)
+            <div style="margin-top:16px;">
+                <div style="height:12px; border-radius:999px; background:#e6eef2; overflow:hidden;">
+                    <div style="width:{{ min(100, round(($team_size / $nextNetworkGoal) * 100)) }}%; height:100%; background:linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);"></div>
+                </div>
+            </div>
+        @endif
+        <div class="actions">
+            <a class="btn btn-primary" href="{{ route('user.invite') }}">Compartilhar convite</a>
         </div>
     </section>
 

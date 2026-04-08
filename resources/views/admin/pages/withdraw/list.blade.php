@@ -81,7 +81,7 @@
 
                                                                     <!-- Modal footer -->
                                                                     <div class="modal-footer">
-                                                                        <input type="submit" value="Submit" class="btn btn-primary">
+                                                                        <input type="submit" value="Submit" class="btn btn-primary" onclick="return confirm('Confirmar alteracao deste saque?')">
                                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                                                     </div>
 
@@ -103,6 +103,14 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener('submit', function (event) {
+            if (event.target.matches('form[action*="customer/withdraw/status"]')) {
+                if (!confirm('Deseja realmente aplicar esta alteracao no saque?')) {
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
 @endsection
-
 

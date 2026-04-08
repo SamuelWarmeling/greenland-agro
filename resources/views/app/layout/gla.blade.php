@@ -337,6 +337,21 @@
             color: var(--gla-green);
             transform: translateY(-1px);
         }
+        .nav-bottom a.is-primary .nav-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);
+            color: #fff;
+            box-shadow: 0 16px 30px rgba(30, 111, 168, 0.24);
+        }
+        .nav-bottom a.is-primary span:last-child {
+            color: var(--gla-blue-dark);
+        }
+        .nav-bottom a.is-primary.active span:last-child,
+        .nav-bottom a.is-primary:hover span:last-child {
+            color: var(--gla-green);
+        }
         @media (max-width: 640px) {
             .grid.cols-2, .stats {
                 grid-template-columns: 1fr;
@@ -395,7 +410,7 @@
         </span>
         <span>Planos</span>
     </a>
-    <a href="{{ route('user.deposit') }}" class="{{ request()->routeIs('user.deposit') ? 'active' : '' }}">
+    <a href="{{ route('user.deposit') }}" class="is-primary {{ request()->routeIs('user.deposit') ? 'active' : '' }}">
         <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8h8.5a3.5 3.5 0 1 1 0 7H8.5a3.5 3.5 0 1 0 0 7H17"/></svg>
         </span>

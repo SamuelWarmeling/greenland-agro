@@ -368,6 +368,82 @@ if (! function_exists('gla_level_label')) {
     }
 }
 
+if (! function_exists('gla_next_threshold')) {
+    function gla_next_threshold($totalInvestment)
+    {
+        $amount = (float) $totalInvestment;
+
+        foreach (array_reverse(gla_vip_thresholds(), true) as $level => $threshold) {
+            if ($amount < $threshold) {
+                return [
+                    'level' => $level,
+                    'threshold' => $threshold,
+                ];
+            }
+        }
+
+        return null;
+    }
+}
+
+if (! function_exists('gla_progress_to_next_level')) {
+    function gla_progress_to_next_level($totalInvestment)
+    {
+        $amount = (float) $totalInvestment;
+        $currentLevel = gla_vip_level_from_total($amount);
+        $currentThreshold = gla_vip_thresholds()[$currentLevel] ?? 0;
+        $next = gla_next_threshold($amount);
+
+        if (! $next) {
+            return 100;
+        }
+
+        $span = max($next['threshold'] - $currentThreshold, 1);
+        $progress = (($amount - $currentThreshold) / $span) * 100;
+
+        return max(0, min(100, round($progress)));
+    }
+}
+
+if (! function_exists('gla_withdraw_window_label')) {
+    function gla_withdraw_window_label()
+    {
+        return 'Das 10:00 as 17:00, com 1 solicitacao por dia.';
+    }
+}
+
+if (! function_exists('gla_has_active_base_plan')) {
+    function gla_has_active_base_plan($userId)
+    {
+        return Purchase::where('user_id', $userId)
+            ->where('status', 'active')
+            ->whereHas('package', function ($query) {
+                $query->where('tab', 'vip')->where('validity', 40);
+            })
+            ->exists();
+    }
+}
+
+if (! function_exists('gla_next_base_plan_for_total')) {
+    function gla_next_base_plan_for_total($totalInvestment)
+    {
+        $catalog = gla_base_plan_catalog();
+        ksort($catalog);
+
+        foreach ($catalog as $price => $meta) {
+            if ((float) $price > (float) $totalInvestment) {
+                return [
+                    'price' => $price,
+                    'name' => $meta['name'],
+                    'photo' => $meta['photo'],
+                ];
+            }
+        }
+
+        return null;
+    }
+}
+
 if (! function_exists('gla_pix_key_type_options')) {
     function gla_pix_key_type_options()
     {

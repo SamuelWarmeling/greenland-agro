@@ -1,10 +1,26 @@
 @extends('app.layout.gla')
 @php
     $pageTitle = 'Painel';
+    $user = auth()->user();
     $vipLevel = gla_user_vip_level(auth()->id());
     $totalInvestment = gla_user_total_investment(auth()->id());
     $activeCycles = \App\Models\Purchase::where('user_id', auth()->id())->where('status', 'active')->count();
     $pendingWithdraws = \App\Models\Withdrawal::where('user_id', auth()->id())->where('status', 'pending')->count();
+    $approvedWithdraws = \App\Models\Withdrawal::where('user_id', auth()->id())->where('status', 'approved')->count();
+    $balanceAvailable = (float) ($user->deposit_balance ?? 0);
+    $nextThreshold = gla_next_threshold($totalInvestment);
+    $progressPercent = gla_progress_to_next_level($totalInvestment);
+    $nextBasePlan = gla_next_base_plan_for_total($totalInvestment);
+    $hasPixKey = filled($user->gateway_number);
+    $hasBasePlan = gla_has_active_base_plan(auth()->id());
+    $latestProofs = \App\Models\SocialProof::with('user')->where('status', 'approved')->latest()->take(3)->get();
+    $withdrawWindowOpen = now()->between(now()->copy()->setTime(10, 0), now()->copy()->setTime(17, 0));
+    $onboardingSteps = [
+        ['label' => 'Ative seu plano base', 'done' => $hasBasePlan, 'link' => route('vip')],
+        ['label' => 'Cadastre sua chave PIX', 'done' => $hasPixKey, 'link' => route('user.withdraw')],
+        ['label' => 'Faca seu primeiro deposito', 'done' => \App\Models\Deposit::where('user_id', auth()->id())->where('status', 'approved')->exists(), 'link' => route('user.deposit')],
+        ['label' => 'Compartilhe seu convite', 'done' => \App\Models\User::where('ref_by', $user->ref_id)->exists(), 'link' => route('user.invite')],
+    ];
 @endphp
 @section('content')
     <section class="hero">
@@ -13,6 +29,10 @@
     </section>
 
     <section class="stats">
+        <div class="stat">
+            <span class="subtle">Saldo disponivel</span>
+            <strong>{{ price($balanceAvailable) }}</strong>
+        </div>
         <div class="stat">
             <span class="subtle">Nivel atual</span>
             <strong>{{ gla_level_label($vipLevel) }}</strong>
@@ -32,13 +52,42 @@
     </section>
 
     <section class="section">
-        <h3>Como a plataforma funciona</h3>
-        <ul class="list">
-            <li>O primeiro passo e adquirir um plano base de 40 dias para ativar a conta e sair do VIP 0.</li>
-            <li>Depois da ativacao, a evolucao de nivel acontece pelo valor total investido na plataforma.</li>
-            <li>Os ciclos VIP e os eventos liberam retornos conforme prazo, valor e nivel exigido.</li>
-            <li>A progressao depende da sua estrategia de reinvestimento, indicacoes e constancia.</li>
-        </ul>
+        <h3>Seus proximos passos</h3>
+        <div class="grid cols-2">
+            @foreach($onboardingSteps as $step)
+                <div class="card">
+                    <span class="badge {{ $step['done'] ? '' : 'info' }}">{{ $step['done'] ? 'Concluido' : 'Pendente' }}</span>
+                    <h4 style="margin-top:12px;">{{ $step['label'] }}</h4>
+                    <p>{{ $step['done'] ? 'Essa etapa ja foi concluida na sua jornada dentro da plataforma.' : 'Conclua essa etapa para fortalecer sua estrutura dentro da GreenLand Agro.' }}</p>
+                    <div class="actions">
+                        <a class="btn {{ $step['done'] ? 'btn-ghost' : 'btn-primary' }}" href="{{ $step['link'] }}">
+                            {{ $step['done'] ? 'Revisar etapa' : 'Ir agora' }}
+                        </a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+
+    <section class="section">
+        <h3>Seu momento atual</h3>
+        <div class="table-like">
+            <div class="row-line"><span>Janela de saque</span><strong>{{ $withdrawWindowOpen ? 'Aberta agora' : 'Fora do horario' }}</strong></div>
+            <div class="row-line"><span>Regra de saque</span><strong>{{ gla_withdraw_window_label() }}</strong></div>
+            <div class="row-line"><span>Saques aprovados</span><strong>{{ $approvedWithdraws }}</strong></div>
+            <div class="row-line"><span>Proximo marco</span><strong>{{ $nextThreshold ? price($nextThreshold['threshold']) . ' para ' . gla_level_label($nextThreshold['level']) : 'Nivel maximo atingido' }}</strong></div>
+            <div class="row-line"><span>Progresso ate o proximo marco</span><strong>{{ $progressPercent }}%</strong></div>
+            @if($nextBasePlan)
+                <div class="row-line"><span>Proxima etapa base disponivel</span><strong>{{ $nextBasePlan['name'] }} - {{ price($nextBasePlan['price']) }}</strong></div>
+            @endif
+        </div>
+        @if($nextThreshold)
+            <div style="margin-top:16px;">
+                <div style="height:12px; border-radius:999px; background:#e6eef2; overflow:hidden;">
+                    <div style="width:{{ $progressPercent }}%; height:100%; background:linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);"></div>
+                </div>
+            </div>
+        @endif
         <div class="actions">
             <a class="btn btn-primary" href="{{ route('vip') }}">Ver planos e ciclos</a>
             <a class="btn btn-secondary" href="{{ route('user.withdraw') }}">Solicitar saque</a>
@@ -78,5 +127,26 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <section class="section">
+        <h3>Conquistas recentes da comunidade</h3>
+        @if($latestProofs->isEmpty())
+            <div class="card">
+                <h4>Vitrine em construcao</h4>
+                <p>Os compartilhamentos validados dos usuarios vao aparecer aqui para reforcar a credibilidade e mostrar o movimento real da plataforma.</p>
+            </div>
+        @else
+            <div class="grid">
+                @foreach($latestProofs as $proof)
+                    <div class="card">
+                        <div class="badge info" style="margin-bottom:12px;">Compartilhamento validado</div>
+                        <h4>{{ $proof->user->name ?: 'Produtor GreenLand' }}</h4>
+                        <p>{{ $proof->message ?: 'Compartilhamento aprovado pela equipe GreenLand Agro.' }}</p>
+                        <small class="subtle">Bonus liberado: {{ price($proof->payout_amount) }}</small>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </section>
 @endsection

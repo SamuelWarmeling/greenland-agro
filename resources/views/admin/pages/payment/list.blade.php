@@ -78,6 +78,7 @@
                                         </tr>
                                     @endforeach
                                 </table>
+                                <small class="text-muted d-block mt-1">Revise somente comprovantes consistentes com valor, transacao e usuario. Isso reduz aprovacao indevida e melhora a confianca operacional.</small>
                             </div>
                         </div>
                     </div>
@@ -85,6 +86,14 @@
             </div>
         </div>
     </section>
+    <script>
+        document.addEventListener('click', function (event) {
+            if (event.target.matches('.btn-success, .btn-danger')) {
+                if (!confirm('Confirmar esta acao de deposito?')) {
+                    event.preventDefault();
+                }
+            }
+        });
+    </script>
 @endsection
-
 
