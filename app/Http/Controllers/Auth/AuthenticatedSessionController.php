@@ -52,7 +52,7 @@ if (Auth::check()){
 
 
        if (!$user){
-           return redirect()->back()->with('error', 'Number error.');
+           return redirect()->back()->with('error', 'Telefone nao encontrado. Verifique o numero digitado ou crie seu cadastro.');
         }
 
         //Check user ban or unban
@@ -70,7 +70,7 @@ if (Auth::check()){
                 return redirect()->back()->with('error', 'Senha incorreta.');
             }
         }else{
-            return redirect()->back()->with('error', 'Number Error.');
+            return redirect()->back()->with('error', 'Telefone nao encontrado. Verifique o numero digitado ou crie seu cadastro.');
         }
     }
 

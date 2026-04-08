@@ -3,7 +3,7 @@
 @section('content')
     <section class="hero">
         <h2>Depositos via PIX</h2>
-        <p>O valor minimo para deposito e {{ price(40) }}. O processamento e rapido e a validacao pode depender do envio do comprovante.</p>
+        <p>O valor minimo para deposito e {{ price(40) }}. No momento, o fluxo funciona por PIX com envio manual de comprovante para aprovacao.</p>
     </section>
     <section class="section">
         <h3>Escolha o valor</h3>
@@ -29,5 +29,9 @@
             </div>
             <button class="btn btn-primary" type="submit">Continuar</button>
         </form>
+        <div class="actions">
+            <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Historico de depositos</a>
+            <a class="btn btn-ghost" href="{{ route('user.withdraw') }}">Ir para saques</a>
+        </div>
     </section>
 @endsection

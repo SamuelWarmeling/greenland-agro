@@ -41,6 +41,7 @@
         </ul>
         <div class="actions">
             <a class="btn btn-primary" href="{{ route('vip') }}">Ver planos e ciclos</a>
+            <a class="btn btn-secondary" href="{{ route('user.withdraw') }}">Solicitar saque</a>
             <a class="btn btn-secondary" href="{{ route('user.invite') }}">Sistema de convites</a>
         </div>
     </section>
@@ -60,6 +61,20 @@
                 <p>Publique um comprovante de saque dentro da plataforma e receba de {{ price(1) }} a {{ price(3) }} apos validacao.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('appreview') }}">Enviar compartilhamento</a>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Depositos e comprovantes</h4>
+                <p>Os depositos estao funcionando por PIX com envio de comprovante. A aprovacao e feita apos analise interna.</p>
+                <div class="actions">
+                    <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer deposito</a>
+                </div>
+            </div>
+            <div class="card">
+                <h4>Saques</h4>
+                <p>Solicitacoes entre 10:00 e 17:00, limite de 1 saque por dia, minimo de {{ price(10) }} e taxa de 10%.</p>
+                <div class="actions">
+                    <a class="btn btn-primary" href="{{ route('user.withdraw') }}">Ir para saque</a>
                 </div>
             </div>
         </div>
