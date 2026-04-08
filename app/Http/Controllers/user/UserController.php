@@ -450,9 +450,8 @@ class UserController extends Controller
         $teamSize = $directInviteIds->count();
         $activeInvitees = Deposit::whereIn('user_id', $directInviteIds)
             ->where('status', 'approved')
-            ->groupBy('user_id')
-            ->get()
-            ->count();
+            ->distinct('user_id')
+            ->count('user_id');
 
         $inviteGoals = [3, 5, 10, 20, 50];
         $nextInviteGoal = null;
@@ -595,6 +594,5 @@ class UserController extends Controller
     }
 
 }
-
 
 

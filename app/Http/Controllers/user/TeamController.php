@@ -65,9 +65,9 @@ class TeamController extends Controller
         $lv3Withdraw = Withdrawal::whereIn('user_id', $third_ids)->where('status', 'approved')->sum('amount');
         $lvTotalWithdraw = $lv1Withdraw + $lv2Withdraw + $lv3Withdraw;
 
-        $activeMembers1 = Deposit::whereIn('user_id', $first_ids)->where('status', 'approved')->groupBy('user_id')->count();
-        $activeMembers2 = Deposit::whereIn('user_id', $second_ids)->where('status', 'approved')->groupBy('user_id')->count();
-        $activeMembers3 = Deposit::whereIn('user_id', $third_ids)->where('status', 'approved')->groupBy('user_id')->count();
+        $activeMembers1 = Deposit::whereIn('user_id', $first_ids)->where('status', 'approved')->distinct('user_id')->count('user_id');
+        $activeMembers2 = Deposit::whereIn('user_id', $second_ids)->where('status', 'approved')->distinct('user_id')->count('user_id');
+        $activeMembers3 = Deposit::whereIn('user_id', $third_ids)->where('status', 'approved')->distinct('user_id')->count('user_id');
 
         $totalInvestment = Purchase::whereIn('user_id', array_merge($first_ids->toArray(), $second_ids->toArray(), $third_ids->toArray()))->sum('amount');
         $totalLevelInvest1 = Purchase::whereIn('user_id', array_merge($first_ids->toArray()))->sum('amount');
