@@ -27,6 +27,17 @@ use function GuzzleHttp\Promise\all;
 
 class RegisteredUserController extends Controller
 {
+    private function normalizePhone(?string $phone): string
+    {
+        $digits = preg_replace('/\D+/', '', (string) $phone);
+
+        if (str_starts_with($digits, '55') && strlen($digits) >= 12) {
+            $digits = substr($digits, 2);
+        }
+
+        return ltrim($digits, '0');
+    }
+
     /**
      * Display the registration view.
      */
@@ -44,16 +55,19 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
+        $phone = $this->normalizePhone($request->phone);
+        $request->merge(['phone' => $phone]);
+
         $validate = Validator::make($request->all(), [
-            'phone' => ['required', 'numeric', 'unique:users,phone'],
+            'phone' => ['required', 'digits_between:10,11', 'unique:users,phone'],
             'password' => ['required'],
             ]);
         if ($validate->fails()){
             $user = User::where('phone', $request->phone)->first();
             if ($user){
-                return back()->with('message', 'Phone number exist');
+                return back()->withInput()->with('message', 'Telefone ja cadastrado.');
             }
-            return back()->with('message', $validate->errors());
+            return back()->withInput()->with('message', 'Informe um telefone valido com DDD.');
         }
 
 
@@ -86,7 +100,7 @@ class RegisteredUserController extends Controller
             'type' => 'user',
             'phone' => $request->phone,
             'balance' => setting('registration_bonus'),
-            'phone_code' => '+880',
+            'phone_code' => '+55',
             'ip' => $getIp,
             'remember_token' => Str::random(30),
         ]);
@@ -102,7 +116,7 @@ class RegisteredUserController extends Controller
 
             return redirect()->route('dashboard');
         }else{
-            return back()->with('message', 'Registration Fail');
+            return back()->withInput()->with('message', 'Falha ao concluir o cadastro.');
         }
 
     }
@@ -125,4 +139,3 @@ class RegisteredUserController extends Controller
         return response()->json(['captcha'=> captcha_img()]);
     }
 }
-

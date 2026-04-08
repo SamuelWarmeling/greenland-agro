@@ -16,6 +16,18 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+    private function normalizePhone(?string $phone): string
+    {
+        $digits = preg_replace('/\D+/', '', (string) $phone);
+
+        // Accept Brazilian inputs with country code and store/login by local mobile number.
+        if (str_starts_with($digits, '55') && strlen($digits) >= 12) {
+            $digits = substr($digits, 2);
+        }
+
+        return ltrim($digits, '0');
+    }
+
     /**
      * Display the login view.
      */
@@ -31,7 +43,8 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(Request $request){
-       $user = User::where('phone', $request->phone)->first();
+       $phone = $this->normalizePhone($request->phone);
+       $user = User::where('phone', $phone)->first();
 
 if (Auth::check()){
             return redirect()->route('dashboard');
@@ -54,7 +67,7 @@ if (Auth::check()){
                 Auth::login($user);
                 return redirect()->route('dashboard');
             }else{
-                return redirect()->back()->with('error', 'Account ban.');
+                return redirect()->back()->with('error', 'Senha incorreta.');
             }
         }else{
             return redirect()->back()->with('error', 'Number Error.');
