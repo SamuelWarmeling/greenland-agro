@@ -1,3 +1,13 @@
+@php
+    $headerName = trim((string) auth()->user()->name);
+    if ($headerName === '' || str_starts_with($headerName, 'User')) {
+        $headerName = 'Produtor GreenLand';
+    }
+
+    $headerIdentifier = auth()->user()->phone
+        ? 'Telefone ' . auth()->user()->phone
+        : 'Codigo ' . (auth()->user()->ref_id ?: '--');
+@endphp
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -306,7 +316,7 @@
         </div>
         <div class="meta">
             <strong>{{ auth()->user()->package_tab ?: 'VIP 0' }}</strong><br>
-            {{ auth()->user()->username ?: auth()->user()->email }}
+            {{ $headerIdentifier }}
         </div>
     </div>
 
