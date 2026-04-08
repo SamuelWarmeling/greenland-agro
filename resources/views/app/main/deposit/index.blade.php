@@ -1,18 +1,18 @@
 @extends('app.layout.gla')
-@php $pageTitle = 'Deposito'; $methods = \App\Models\PaymentMethod::where('status', 'active')->get(); @endphp
+@php $pageTitle = 'Depósito'; $methods = \App\Models\PaymentMethod::where('status', 'active')->get(); @endphp
 @section('content')
     <section class="hero">
         <h2>Depósitos via PIX</h2>
-        <p>O valor minimo para deposito e {{ price(40) }}. Escolha o valor da recarga e acompanhe por aqui o fluxo PIX da sua conta GreenLand Agro.</p>
+        <p>O valor mínimo para depósito é {{ price(40) }}. Escolha o valor da recarga e acompanhe por aqui o fluxo PIX da sua conta GreenLand Agro.</p>
     </section>
     <section class="compact-stats">
         <div class="compact-stat">
-            <span class="subtle">Minimo por deposito</span>
+            <span class="subtle">Mínimo por depósito</span>
             <strong>{{ price(40) }}</strong>
         </div>
         <div class="compact-stat">
             <span class="subtle">Status do fluxo</span>
-            <strong>PIX em operacao</strong>
+            <strong>PIX em operação</strong>
         </div>
     </section>
     <section class="section">
@@ -22,7 +22,7 @@
                 @if($methods->first())
                     <a class="quick-action" href="{{ route('user.deposit.amount', [$preset, $methods->first()->id]) }}">
                         <strong>{{ price($preset) }}</strong>
-                        <span class="subtle">Acesso rapido para iniciar esse deposito.</span>
+                        <span class="subtle">Acesso rápido para iniciar esse depósito.</span>
                     </a>
                 @endif
             @endforeach
