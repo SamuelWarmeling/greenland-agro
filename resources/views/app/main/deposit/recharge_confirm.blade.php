@@ -5,9 +5,9 @@
 @endphp
 @section('content')
     <section class="hero">
-        <span class="badge" style="background:rgba(255,255,255,0.18); color:#fff; margin-bottom:12px;">Deposito manual via PIX</span>
+        <span class="badge" style="background:rgba(255,255,255,0.18); color:#fff; margin-bottom:12px;">Gateway PIX automatica</span>
         <h2>Confirmar deposito</h2>
-        <p>Esta etapa ainda funciona com envio de comprovante. O usuario faz o PIX, informa o identificador da transacao e envia o comprovante para aprovacao interna.</p>
+        <p>Esta etapa sera conectada a uma gateway PIX automatica. A interface abaixo ja foi ajustada para o fluxo de cobranca automatica da GreenLand Agro.</p>
     </section>
 
     <section class="section">
@@ -25,46 +25,29 @@
             </div>
         </div>
         <div class="card" style="margin-top:14px;">
-            <h4>Chave PIX</h4>
+            <h4>Canal de pagamento</h4>
             <div class="price" style="font-size:1.1rem; word-break:break-word;">{{ $pixKey }}</div>
-            <p class="subtle">Copie essa chave e realize o pagamento no aplicativo do seu banco.</p>
+            <p class="subtle">Esse campo sera substituido automaticamente pelos dados retornados pela gateway PIX.</p>
         </div>
     </section>
 
     <section class="section">
-        <h3>Enviar comprovante</h3>
-        <form action="{{ route('payment_confirmation') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="amount" value="{{ $amount }}">
-            <input type="hidden" name="payment_method" value="{{ $payment_method->name }}">
-
-            <div class="field">
-                <label for="transaction_id">Identificador da transacao</label>
-                <input id="transaction_id" name="transaction_id" type="text" placeholder="Ex.: E2E, ID do PIX ou referencia bancaria" required>
-                <small>Use o codigo gerado no comprovante ou no extrato do PIX.</small>
-            </div>
-
-            <div class="field">
-                <label for="photo">Comprovante do pagamento</label>
-                <input id="photo" name="photo" type="file" accept="image/*" required>
-                <small>Envie uma imagem legivel do comprovante para agilizar a aprovacao.</small>
-            </div>
-
-            <div class="card" style="margin:16px 0;">
-                <h4>Como funciona</h4>
-                <ul class="list">
-                    <li>Realize o PIX para a chave informada acima.</li>
-                    <li>Guarde o comprovante e copie o identificador da transacao.</li>
-                    <li>Envie os dados neste formulario para analise da equipe.</li>
-                    <li>O saldo sera liberado apos aprovacao interna.</li>
-                </ul>
-            </div>
-
-            <div class="actions">
-                <button class="btn btn-primary" type="submit">Enviar comprovante</button>
-                <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Ver historico</a>
-                <a class="btn btn-ghost" href="{{ route('user.deposit') }}">Voltar</a>
-            </div>
-        </form>
+        <h3>Fluxo previsto da gateway</h3>
+        <div class="card">
+            <ul class="list">
+                <li>O sistema vai gerar automaticamente a cobranca PIX.</li>
+                <li>O usuario vai copiar o codigo ou escanear o QR Code dinamico.</li>
+                <li>A confirmacao do pagamento vai voltar da gateway sem envio manual de comprovante.</li>
+                <li>O saldo sera atualizado automaticamente apos confirmacao da transacao.</li>
+            </ul>
+        </div>
+        <div class="card" style="margin-top:16px;">
+            <h4>Status atual</h4>
+            <p>A integracao automatica ainda precisa ser conectada no backend. Quando a gateway for definida, esta etapa passa a gerar cobrancas reais automaticamente.</p>
+        </div>
+        <div class="actions">
+            <a class="btn btn-primary" href="{{ route('user.deposit') }}">Voltar para depositos</a>
+            <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Ver historico</a>
+        </div>
     </section>
 @endsection

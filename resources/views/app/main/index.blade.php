@@ -65,7 +65,7 @@
             </div>
             <div class="card">
                 <h4>Depositos e comprovantes</h4>
-                <p>Os depositos estao funcionando por PIX com envio de comprovante. A aprovacao e feita apos analise interna.</p>
+                <p>Os depositos desta area serao ligados a uma gateway PIX automatica, com confirmacao de pagamento direto na plataforma.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer deposito</a>
                 </div>
