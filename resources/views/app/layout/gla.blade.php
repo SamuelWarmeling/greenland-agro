@@ -68,15 +68,21 @@
             gap: 14px;
         }
         .brand-mark {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--gla-blue) 0%, var(--gla-green) 100%);
-            color: #fff;
-            display: grid;
-            place-items: center;
-            font-weight: 800;
-            letter-spacing: 0.06em;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #fff;
+            border: 1px solid var(--gla-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .brand-mark img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .brand h1 {
             margin: 0;
@@ -308,7 +314,9 @@
 <div class="shell">
     <div class="topbar">
         <div class="brand">
-            <div class="brand-mark">GLA</div>
+            <div class="brand-mark">
+                <img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro">
+            </div>
             <div>
                 <h1>GreenLand Agro</h1>
                 <p>Inovacao que cultiva o futuro</p>

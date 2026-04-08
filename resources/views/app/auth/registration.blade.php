@@ -41,9 +41,10 @@
         }
         .brand { display: flex; align-items: center; gap: 14px; }
         .brand-mark {
-            width: 54px; height: 54px; border-radius: 16px; display: grid; place-items: center; color: #fff; font-weight: 800;
-            letter-spacing: 0.08em; background: linear-gradient(135deg, #1E6FA8 0%, #2E8B57 100%);
+            width: 70px; height: 70px; border-radius: 18px; overflow: hidden; border: 1px solid var(--gla-border);
+            background: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
+        .brand-mark img { width: 100%; height: 100%; object-fit: cover; }
         .brand h1 { margin: 0; color: var(--gla-blue-dark); font-size: 1.2rem; }
         .brand p { margin: 4px 0 0; color: var(--gla-muted); }
         .hero-copy h2 { margin: 0 0 14px; font-size: 2.35rem; line-height: 1.04; color: var(--gla-blue-dark); }
@@ -77,7 +78,7 @@
     <div class="auth-shell">
         <section class="hero">
             <div class="brand">
-                <div class="brand-mark">GLA</div>
+                <div class="brand-mark"><img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro"></div>
                 <div>
                     <h1>GreenLand Agro</h1>
                     <p>Inovacao que cultiva o futuro</p>

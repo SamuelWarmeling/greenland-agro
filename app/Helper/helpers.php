@@ -354,7 +354,7 @@ if (! function_exists('gla_package_display_meta')) {
     {
         $fallback = [
             'name' => $package->name ?? 'Plano',
-            'photo' => $package->photo ?? '/public/assets/img/logo.png',
+            'photo' => $package->photo ?? '/public/assets/img/greenland-agro-logo.jpeg',
         ];
 
         if (! $package || ($package->tab ?? null) !== 'vip' || (int) ($package->validity ?? 0) !== 40) {

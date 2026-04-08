@@ -40,7 +40,7 @@ class GreenLandAgroSeeder extends Seeder
             ['id' => 1],
             [
                 'name' => 'PIX',
-                'photo' => '/public/assets/img/logo.png',
+                'photo' => '/public/assets/img/greenland-agro-logo.jpeg',
                 'address' => 'CHAVE PIX GREENLAND AGRO',
                 'status' => 'active',
             ]
@@ -97,7 +97,7 @@ class GreenLandAgroSeeder extends Seeder
             if (! empty($plan['photo'])) {
                 $package->photo = $plan['photo'];
             } elseif (! $package->exists && empty($package->photo)) {
-                $package->photo = '/public/assets/img/logo.png';
+                $package->photo = '/public/assets/img/greenland-agro-logo.jpeg';
             }
 
             $package->save();

@@ -14,8 +14,8 @@
                                         </uni-text>
                                     </uni-view>
                                     <uni-image data-v-00e6788a="" class="avatar">
-                                        <div style="background: linear-gradient(135deg, #1E6FA8, #2E8B57); border-radius: 18px;"></div>
-                                        <img src="{{ asset('assets/img/logo.png') }}" draggable="false">
+                                        <div style="background: #fff; border-radius: 18px;"></div>
+                                        <img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" draggable="false">
                                     </uni-image>
                                     <uni-view data-v-00e6788a="" class="app-name">{{env('APP_NAME')}}</uni-view>
                                     <uni-view data-v-00e6788a="">{{auth()->user()->phone}}(ID:{{auth()->user()->ref_id}})</uni-view>
