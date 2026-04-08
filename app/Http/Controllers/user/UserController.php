@@ -128,7 +128,7 @@ class UserController extends Controller
             ->exists();
 
         if ($alreadyCheckedIn) {
-            return redirect()->back()->with('error', 'Seu check-in diario ja foi realizado hoje.');
+            return redirect()->back()->with('error', 'Seu check-in diário já foi realizado hoje.');
         }
 
         $amount = gla_checkin_amount();
@@ -154,7 +154,7 @@ class UserController extends Controller
         $ledger->date = date('d-m-Y H:i');
         $ledger->save();
 
-        return redirect()->back()->with('success', 'Check-in diario realizado com sucesso.');
+        return redirect()->back()->with('success', 'Check-in diário realizado com sucesso.');
     }
 
 
@@ -345,7 +345,7 @@ class UserController extends Controller
         }
 
         if ((float) $request->amount < 40) {
-            return back()->with('error', 'O deposito minimo via PIX e de R$ 40,00.');
+            return back()->with('error', 'O depósito mínimo via PIX é de R$ 40,00.');
         }
 
         $model = new Deposit();
@@ -361,7 +361,7 @@ class UserController extends Controller
         $model->date = date('d-m-Y H:i:s');
         $model->status = 'pending';
         $model->save();
-        return redirect()->route('user.deposit')->with('success', 'Deposito enviado com sucesso. Aguarde a validacao.');
+        return redirect()->route('user.deposit')->with('success', 'Depósito enviado com sucesso. Aguarde a validação.');
     }
 
     public function update_profile(Request $request)
@@ -520,7 +520,7 @@ class UserController extends Controller
         $proof->photo = $path ?? $proof->photo;
         $proof->save();
 
-        return redirect()->route('climRecord')->with('success', 'Compartilhamento enviado para validacao.');
+        return redirect()->route('climRecord')->with('success', 'Compartilhamento enviado para validação.');
     }
 
     public function rule()

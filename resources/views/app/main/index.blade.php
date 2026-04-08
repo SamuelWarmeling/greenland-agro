@@ -18,23 +18,23 @@
     $onboardingSteps = [
         ['label' => 'Ative seu plano base', 'done' => $hasBasePlan, 'link' => route('vip')],
         ['label' => 'Cadastre sua chave PIX', 'done' => $hasPixKey, 'link' => route('user.withdraw')],
-        ['label' => 'Faca seu primeiro deposito', 'done' => \App\Models\Deposit::where('user_id', auth()->id())->where('status', 'approved')->exists(), 'link' => route('user.deposit')],
+        ['label' => 'Faça seu primeiro depósito', 'done' => \App\Models\Deposit::where('user_id', auth()->id())->where('status', 'approved')->exists(), 'link' => route('user.deposit')],
         ['label' => 'Compartilhe seu convite', 'done' => \App\Models\User::where('ref_by', $user->ref_id)->exists(), 'link' => route('user.invite')],
     ];
 @endphp
 @section('content')
     <section class="hero">
-        <h2>Tecnologia e inovacao para o futuro da soja</h2>
-        <p>A GreenLand Agro combina inteligencia de dados, automacao e estrategia de crescimento em ciclos para uma experiencia mais clara, progressiva e organizada dentro da plataforma.</p>
+        <h2>Tecnologia e inovação para o futuro da soja</h2>
+        <p>A GreenLand Agro combina inteligência de dados, automação e estratégia de crescimento em ciclos para uma experiência mais clara, progressiva e organizada dentro da plataforma.</p>
     </section>
 
     <section class="compact-stats">
         <div class="compact-stat">
-            <span class="subtle">Saldo disponivel</span>
+            <span class="subtle">Saldo disponível</span>
             <strong>{{ price($balanceAvailable) }}</strong>
         </div>
         <div class="compact-stat">
-            <span class="subtle">Nivel atual</span>
+            <span class="subtle">Nível atual</span>
             <strong>{{ gla_level_label($vipLevel) }}</strong>
         </div>
         <div class="compact-stat">
@@ -56,14 +56,14 @@
     </section>
 
     <section class="section">
-        <h3>Acoes rapidas</h3>
+        <h3>Ações rápidas</h3>
         <div class="quick-actions">
             <a class="quick-action" href="{{ route('vip') }}">
                 <strong>Ativar etapa</strong>
-                <span class="subtle">Escolha sua etapa de entrada ou avance no proximo ciclo.</span>
+                <span class="subtle">Escolha sua etapa de entrada ou avance no próximo ciclo.</span>
             </a>
             <a class="quick-action" href="{{ route('user.deposit') }}">
-                <strong>Fazer deposito</strong>
+                <strong>Fazer depósito</strong>
                 <span class="subtle">Acesse o fluxo PIX e acompanhe a entrada do valor na plataforma.</span>
             </a>
             <a class="quick-action" href="{{ route('user.withdraw') }}">
@@ -78,13 +78,13 @@
     </section>
 
     <section class="section">
-        <h3>Seus proximos passos</h3>
+        <h3>Seus próximos passos</h3>
         <div class="mobile-cards">
             @foreach($onboardingSteps as $step)
                 <div class="card">
-                    <span class="badge {{ $step['done'] ? '' : 'info' }}">{{ $step['done'] ? 'Concluido' : 'Pendente' }}</span>
+                    <span class="badge {{ $step['done'] ? '' : 'info' }}">{{ $step['done'] ? 'Concluído' : 'Pendente' }}</span>
                     <h4 style="margin-top:12px;">{{ $step['label'] }}</h4>
-                    <p>{{ $step['done'] ? 'Essa etapa ja foi concluida na sua jornada dentro da plataforma.' : 'Conclua essa etapa para fortalecer sua estrutura dentro da GreenLand Agro.' }}</p>
+                    <p>{{ $step['done'] ? 'Essa etapa já foi concluída na sua jornada dentro da plataforma.' : 'Conclua essa etapa para fortalecer sua estrutura dentro da GreenLand Agro.' }}</p>
                     <div class="actions">
                         <a class="btn {{ $step['done'] ? 'btn-ghost' : 'btn-primary' }}" href="{{ $step['link'] }}">
                             {{ $step['done'] ? 'Revisar etapa' : 'Ir agora' }}
@@ -98,18 +98,18 @@
     <section class="section">
         <h3>Seu momento atual</h3>
         <div class="table-like">
-            <div class="row-line"><span>Janela de saque</span><strong>{{ $withdrawWindowOpen ? 'Aberta agora' : 'Fora do horario' }}</strong></div>
+            <div class="row-line"><span>Janela de saque</span><strong>{{ $withdrawWindowOpen ? 'Aberta agora' : 'Fora do horário' }}</strong></div>
             <div class="row-line"><span>Regra de saque</span><strong>{{ gla_withdraw_window_label() }}</strong></div>
             <div class="row-line"><span>Saques aprovados</span><strong>{{ $approvedWithdraws }}</strong></div>
-            <div class="row-line"><span>Proximo marco</span><strong>{{ $nextThreshold ? price($nextThreshold['threshold']) . ' para ' . gla_level_label($nextThreshold['level']) : 'Nivel maximo atingido' }}</strong></div>
-            <div class="row-line"><span>Progresso ate o proximo marco</span><strong>{{ $progressPercent }}%</strong></div>
+            <div class="row-line"><span>Próximo marco</span><strong>{{ $nextThreshold ? price($nextThreshold['threshold']) . ' para ' . gla_level_label($nextThreshold['level']) : 'Nível máximo atingido' }}</strong></div>
+            <div class="row-line"><span>Progresso até o próximo marco</span><strong>{{ $progressPercent }}%</strong></div>
             @if($nextBasePlan)
-                <div class="row-line"><span>Proxima etapa base disponivel</span><strong>{{ $nextBasePlan['name'] }} - {{ price($nextBasePlan['price']) }}</strong></div>
+                <div class="row-line"><span>Próxima etapa base disponível</span><strong>{{ $nextBasePlan['name'] }} - {{ price($nextBasePlan['price']) }}</strong></div>
             @endif
         </div>
         @if($nextThreshold)
             <div class="progress-shell">
-                <span class="subtle">Avanco atual para o proximo marco</span>
+                <span class="subtle">Avanço atual para o próximo marco</span>
                 <div class="progress-track">
                     <div class="progress-fill" style="width:{{ $progressPercent }}%;"></div>
                 </div>
@@ -126,7 +126,7 @@
         <h3>Destaques do GLA</h3>
         <div class="mobile-cards">
             <div class="card">
-                <h4>Check-in diario</h4>
+                <h4>Check-in diário</h4>
                 <p>Receba {{ price(gla_checkin_amount()) }} por dia ao acessar a plataforma e confirmar seu check-in.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('checkinn') }}">Fazer check-in</a>
@@ -134,21 +134,21 @@
             </div>
             <div class="card">
                 <h4>Compartilhamento validado</h4>
-                <p>Publique um comprovante de saque dentro da plataforma e receba de {{ price(1) }} a {{ price(3) }} apos validacao.</p>
+                <p>Publique um comprovante de saque dentro da plataforma e receba de {{ price(1) }} a {{ price(3) }} após validação.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('appreview') }}">Enviar compartilhamento</a>
                 </div>
             </div>
             <div class="card">
-                <h4>Depositos e comprovantes</h4>
-                <p>Centralize seus depositos em um unico ambiente e acompanhe o processamento das recargas PIX dentro da plataforma.</p>
+                <h4>Depósitos e comprovantes</h4>
+                <p>Centralize seus depósitos em um único ambiente e acompanhe o processamento das recargas PIX dentro da plataforma.</p>
                 <div class="actions">
-                    <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer deposito</a>
+                    <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer depósito</a>
                 </div>
             </div>
             <div class="card">
                 <h4>Saques</h4>
-                <p>Solicitacoes entre 10:00 e 17:00, limite de 1 saque por dia, minimo de {{ price(gla_withdraw_minimum()) }} e taxa de 10%.</p>
+                <p>Solicitações entre 10:00 e 17:00, limite de 1 saque por dia, mínimo de {{ price(gla_withdraw_minimum()) }} e taxa de 10%.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('user.withdraw') }}">Ir para saque</a>
                 </div>

@@ -14,7 +14,7 @@
         <h3>Dados do pagamento</h3>
         <div class="grid cols-2">
             <div class="card">
-                <h4>Metodo</h4>
+                <h4>Método</h4>
                 <div class="price" style="font-size:1.15rem;">{{ $payment_method->name }}</div>
                 <p class="subtle">Canal configurado para recebimento.</p>
             </div>
@@ -27,7 +27,7 @@
         <div class="card" style="margin-top:14px;">
             <h4>Canal de pagamento</h4>
             <div class="price" style="font-size:1.1rem; word-break:break-word;">{{ $pixKey }}</div>
-            <p class="subtle">Os dados exibidos acompanham o canal configurado para o seu metodo de deposito.</p>
+            <p class="subtle">Os dados exibidos acompanham o canal configurado para o seu método de depósito.</p>
         </div>
     </section>
 
@@ -36,14 +36,14 @@
         <div class="card">
             <ul class="list">
                 <li>Confira o valor solicitado e o canal de pagamento antes de prosseguir.</li>
-                <li>Use o metodo PIX configurado para concluir a recarga da sua conta.</li>
-                <li>Acompanhe o status da solicitacao pelo historico de depositos.</li>
-                <li>Assim que o pagamento for confirmado, o saldo fica disponivel na plataforma.</li>
+                <li>Use o método PIX configurado para concluir a recarga da sua conta.</li>
+                <li>Acompanhe o status da solicitação pelo histórico de depósitos.</li>
+                <li>Assim que o pagamento for confirmado, o saldo fica disponível na plataforma.</li>
             </ul>
         </div>
         <div class="actions">
-            <a class="btn btn-primary" href="{{ route('user.deposit') }}">Voltar para depositos</a>
-            <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Ver historico</a>
+            <a class="btn btn-primary" href="{{ route('user.deposit') }}">Voltar para depósitos</a>
+            <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Ver histórico</a>
         </div>
     </section>
 @endsection

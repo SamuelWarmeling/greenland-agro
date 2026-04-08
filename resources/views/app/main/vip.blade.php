@@ -16,19 +16,19 @@
 @section('content')
     <section class="hero">
         <h2>Jornada de crescimento GreenLand Agro</h2>
-        <p>Comece com uma etapa base de 40 dias e avance no ecossistema com ciclos e oportunidades alinhadas ao seu nivel de evolucao.</p>
+        <p>Comece com uma etapa base de 40 dias e avance no ecossistema com ciclos e oportunidades alinhadas ao seu nível de evolução.</p>
     </section>
 
     <section class="section">
         <h3>Seu enquadramento atual</h3>
         <div class="table-like">
-            <div class="row-line"><span>Nivel liberado</span><strong>{{ gla_level_label($vipLevel) }}</strong></div>
+            <div class="row-line"><span>Nível liberado</span><strong>{{ gla_level_label($vipLevel) }}</strong></div>
             <div class="row-line"><span>Total em ativos</span><strong>{{ price($totalInvestment) }}</strong></div>
-            <div class="row-line"><span>Proximo marco</span><strong>
+            <div class="row-line"><span>Próximo marco</span><strong>
                 @php
                     $nextThreshold = collect(gla_vip_thresholds())->reverse()->first(fn($threshold) => $threshold > $totalInvestment);
                 @endphp
-                {{ $nextThreshold ? price($nextThreshold) : 'Nivel maximo atingido' }}
+                {{ $nextThreshold ? price($nextThreshold) : 'Nível maximo atingido' }}
             </strong></div>
         </div>
     </section>
@@ -57,7 +57,7 @@
     </section>
 
     <section class="section">
-        <h3>Ciclos por nivel</h3>
+        <h3>Ciclos por nível</h3>
         <div class="grid cols-2">
             @foreach($cyclePlans as $package)
                 @php

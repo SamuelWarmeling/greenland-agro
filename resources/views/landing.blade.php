@@ -171,7 +171,7 @@
             <img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro">
             <div>
                 <h1>GreenLand Agro</h1>
-                <p>Inovacao que cultiva o futuro</p>
+                <p>Inovação que cultiva o futuro</p>
             </div>
         </div>
         <div class="actions">

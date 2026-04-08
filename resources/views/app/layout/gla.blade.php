@@ -6,7 +6,7 @@
 
     $headerIdentifier = auth()->user()->phone
         ? 'Telefone ' . gla_format_phone(auth()->user()->phone)
-        : 'Codigo ' . (auth()->user()->ref_id ?: '--');
+        : 'Código ' . (auth()->user()->ref_id ?: '--');
 
     $headerLevel = gla_level_label(gla_user_vip_level(auth()->user()));
 @endphp
@@ -577,7 +577,7 @@
                 </div>
                 <div>
                     <h1>GreenLand Agro</h1>
-                    <p>Inovacao que cultiva o futuro</p>
+                    <p>Inovação que cultiva o futuro</p>
                 </div>
             </a>
         </div>

@@ -6,7 +6,7 @@
 @section('content')
     <section class="hero">
         <h2>Compartilhe suas conquistas</h2>
-        <p>Publique um comprovante de saque dentro da plataforma, inclua uma mensagem opcional e receba de {{ price(1) }} a {{ price(3) }} apos validacao administrativa.</p>
+        <p>Publique um comprovante de saque dentro da plataforma, inclua uma mensagem opcional e receba de {{ price(1) }} a {{ price(3) }} após validação administrativa.</p>
     </section>
     <section class="section">
         <h3>Novo compartilhamento</h3>
@@ -19,9 +19,9 @@
             <div class="field">
                 <label for="photo">Captura de tela do saque</label>
                 <input id="photo" name="photo" type="file" accept="image/*" required>
-                <small>Cada postagem passa por validacao antes da liberacao do bonus.</small>
+                <small>Cada postagem passa por validação antes da liberação do bônus.</small>
             </div>
-            <button class="btn btn-primary" type="submit">Enviar para validacao</button>
+            <button class="btn btn-primary" type="submit">Enviar para validação</button>
         </form>
     </section>
     <section class="section">
@@ -38,7 +38,7 @@
                         <div class="badge info" style="margin-bottom:12px;">Conquista validada</div>
                         <h4>{{ $proof->user->name ?: 'Produtor GreenLand' }}</h4>
                         <p>{{ $proof->message ?: 'Compartilhamento validado pela equipe GreenLand Agro.' }}</p>
-                        <small class="subtle">Bonus recebido: {{ price($proof->payout_amount) }}</small>
+                        <small class="subtle">Bônus recebido: {{ price($proof->payout_amount) }}</small>
                     </div>
                 @endforeach
             </div>

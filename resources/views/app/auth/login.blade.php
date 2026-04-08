@@ -91,12 +91,12 @@
                 <div class="brand-mark"><img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro"></div>
                 <div>
                     <h1>GreenLand Agro</h1>
-                    <p>Inovacao que cultiva o futuro</p>
+                    <p>Inovação que cultiva o futuro</p>
                 </div>
             </div>
             <div class="hero-copy">
-                <h2>Tecnologia e inovacao para o futuro da soja.</h2>
-                <p>Acesse sua conta para acompanhar etapas de entrada, ciclos, beneficios da plataforma e a evolucao da sua estrategia dentro da GreenLand Agro.</p>
+                <h2>Tecnologia e inovação para o futuro da soja.</h2>
+                <p>Acesse sua conta para acompanhar etapas de entrada, ciclos, benefícios da plataforma e a evolução da sua estratégia dentro da GreenLand Agro.</p>
             </div>
             <div class="hero-grid">
                 <div class="hero-card">
@@ -105,14 +105,14 @@
                 </div>
                 <div class="hero-card">
                     <strong>Progressao da conta</strong>
-                    <span>Veja sua evolucao por nivel conforme o total investido na plataforma.</span>
+                    <span>Veja sua evolução por nível conforme o total investido na plataforma.</span>
                 </div>
             </div>
         </section>
         <section class="panel">
             <div class="eyebrow">Acesso seguro</div>
             <h3>Entrar na plataforma</h3>
-            <p class="subtitle">Use seu numero cadastrado e sua senha para acessar a sua area.</p>
+            <p class="subtitle">Use seu número cadastrado e sua senha para acessar a sua área.</p>
 
             @if(session('error'))
                 <div class="flash error">{{ session('error') }}</div>
@@ -129,8 +129,8 @@
             <form method="POST" action="{{ route('login.submit') }}">
                 @csrf
                 <div class="field">
-                    <label for="phone">Numero de telefone</label>
-                    <input id="phone" name="phone" type="text" inputmode="numeric" value="{{ old('phone') }}" placeholder="Digite seu numero cadastrado" required>
+                    <label for="phone">Número de telefone</label>
+                    <input id="phone" name="phone" type="text" inputmode="numeric" value="{{ old('phone') }}" placeholder="Digite seu número cadastrado" required>
                     <div class="hint">Informe apenas o telefone usado no cadastro.</div>
                 </div>
                 <div class="field">
@@ -147,7 +147,7 @@
                 <button type="submit" class="btn">Entrar agora</button>
             </form>
 
-            <div class="footer-link">Ainda nao tem conta? <a href="{{ route('register') }}">Criar cadastro</a></div>
+            <div class="footer-link">Ainda não tem conta? <a href="{{ route('register') }}">Criar cadastro</a></div>
         </section>
     </div>
 </div>

@@ -54,14 +54,14 @@ class AuthenticatedSessionController extends Controller
         if (! $user) {
             RateLimiter::hit($request->throttleKey());
 
-            return redirect()->back()->withInput($request->only('phone'))->with('error', 'Telefone nao encontrado. Verifique o numero digitado ou crie seu cadastro.');
+            return redirect()->back()->withInput($request->only('phone'))->with('error', 'Telefone não encontrado. Verifique o número digitado ou crie seu cadastro.');
         }
 
         //Check user ban or unban
         if ($user->ban_unban == 'ban') {
             RateLimiter::hit($request->throttleKey());
 
-            return redirect()->back()->with('error', 'Account ban.');
+            return redirect()->back()->with('error', 'Conta bloqueada.');
         }
 
         if (! Hash::check($request->password, $user->password)) {

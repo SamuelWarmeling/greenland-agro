@@ -81,17 +81,17 @@
                 <div class="brand-mark"><img src="{{ asset('public/assets/img/greenland-agro-logo.jpeg') }}" alt="GreenLand Agro"></div>
                 <div>
                     <h1>GreenLand Agro</h1>
-                    <p>Inovacao que cultiva o futuro</p>
+                    <p>Inovação que cultiva o futuro</p>
                 </div>
             </div>
             <div class="hero-copy">
                 <h2>Comece sua jornada na plataforma GreenLand Agro.</h2>
-                <p>Ative sua conta, acompanhe seus beneficios e construa sua evolucao com uma base clara de etapas e ciclos.</p>
+                <p>Ative sua conta, acompanhe seus benefícios e construa sua evolução com uma base clara de etapas e ciclos.</p>
             </div>
             <div class="timeline">
                 <div class="step"><strong>1. Criar conta</strong><span>Cadastre seu telefone e defina a senha de acesso.</span></div>
                 <div class="step"><strong>2. Ativar sua etapa inicial</strong><span>A etapa base libera a entrada na plataforma e a progressao inicial.</span></div>
-                <div class="step"><strong>3. Evoluir por estrategia</strong><span>Amplie seus resultados por ciclos ativos, reinvestimento e crescimento de nivel.</span></div>
+                <div class="step"><strong>3. Evoluir por estrategia</strong><span>Amplie seus resultados por ciclos ativos, reinvestimento e crescimento de nível.</span></div>
             </div>
         </section>
         <section class="panel">
@@ -116,12 +116,12 @@
                 <div class="field">
                     <label for="name">Nome do produtor</label>
                     <input id="name" name="name" type="text" value="{{ old('name') }}" placeholder="Digite seu nome completo" required>
-                    <div class="hint">Esse nome sera usado nas areas internas da sua conta e da sua rede.</div>
+                    <div class="hint">Esse nome será usado nas áreas internas da sua conta e da sua rede.</div>
                 </div>
                 <div class="field">
-                    <label for="phone">Numero de telefone</label>
+                    <label for="phone">Número de telefone</label>
                     <input id="phone" name="phone" type="text" inputmode="numeric" value="{{ old('phone') }}" placeholder="Digite seu telefone" required>
-                    <div class="hint">Use um numero valido para acesso e recuperacao da sua conta.</div>
+                    <div class="hint">Use um número válido para acesso e recuperação da sua conta.</div>
                 </div>
                 <div class="field">
                     <label for="password">Senha</label>
@@ -133,15 +133,15 @@
                     <input id="password_confirmation" name="password_confirmation" type="password" placeholder="Repita a sua senha" required>
                 </div>
                 <div class="field">
-                    <label for="ref_by">Codigo de indicacao</label>
+                    <label for="ref_by">Código de indicação</label>
                     <input id="ref_by" name="ref_by" type="text" value="{{ old('ref_by', $ref_by ?? '') }}" placeholder="Opcional">
-                    <div class="hint">Se voce foi convidado, informe o codigo para vincular o cadastro.</div>
+                    <div class="hint">Se você foi convidado, informe o código para vincular o cadastro.</div>
                 </div>
-                <div class="note">Ao criar sua conta, voce entra na plataforma e podera ativar sua etapa inicial para iniciar a sua jornada dentro da GreenLand Agro.</div>
+                <div class="note">Ao criar sua conta, você entra na plataforma e poderá ativar sua etapa inicial para iniciar a sua jornada dentro da GreenLand Agro.</div>
                 <button type="submit" class="btn">Criar minha conta</button>
             </form>
 
-            <div class="footer-link">Ja possui conta? <a href="{{ route('login') }}">Entrar agora</a></div>
+            <div class="footer-link">Já possui conta? <a href="{{ route('login') }}">Entrar agora</a></div>
         </section>
     </div>
 </div>

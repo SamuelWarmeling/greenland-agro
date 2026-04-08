@@ -2,7 +2,7 @@
 @php $pageTitle = 'Deposito'; $methods = \App\Models\PaymentMethod::where('status', 'active')->get(); @endphp
 @section('content')
     <section class="hero">
-        <h2>Depositos via PIX</h2>
+        <h2>Depósitos via PIX</h2>
         <p>O valor minimo para deposito e {{ price(40) }}. Escolha o valor da recarga e acompanhe por aqui o fluxo PIX da sua conta GreenLand Agro.</p>
     </section>
     <section class="compact-stats">
@@ -33,7 +33,7 @@
                 <input id="amount" type="number" min="40" step="0.01" placeholder="Digite um valor a partir de R$ 40,00">
             </div>
             <div class="field">
-                <label for="method">Metodo</label>
+                <label for="method">Método</label>
                 <select id="method">
                     @foreach($methods as $method)
                         <option value="{{ $method->id }}">{{ $method->name }}</option>
@@ -43,7 +43,7 @@
             <button class="btn btn-primary" type="submit">Continuar</button>
         </form>
         <div class="actions">
-            <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Historico de depositos</a>
+            <a class="btn btn-secondary" href="{{ route('deposit.history') }}">Histórico de depósitos</a>
             <a class="btn btn-ghost" href="{{ route('user.withdraw') }}">Ir para saques</a>
         </div>
     </section>

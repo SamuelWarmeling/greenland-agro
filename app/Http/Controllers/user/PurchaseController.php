@@ -19,7 +19,7 @@ class PurchaseController extends Controller
         $package = Package::findOrFail($id);
 
         if ($package->status !== 'active') {
-            return back()->with('error', 'Plano indisponivel no momento.');
+            return back()->with('error', 'Plano indisponível no momento.');
         }
 
         return DB::transaction(function () use ($package) {
@@ -27,19 +27,19 @@ class PurchaseController extends Controller
             $isFirstPurchase = ! Purchase::where('user_id', $user->id)->lockForUpdate()->exists();
 
             if ($isFirstPurchase && $package->tab !== 'vip') {
-                return back()->with('error', 'Para ativar a conta e sair do VIP 0, compre primeiro um plano base.');
+                return back()->with('error', 'Para ativar a conta e sair do Nível 0, compre primeiro um plano base.');
             }
 
             if (! $isFirstPurchase) {
                 if ($package->tab === 'vip') {
-                    return back()->with('error', 'Os planos base servem apenas para ativacao inicial.');
+                    return back()->with('error', 'Os planos base servem apenas para ativação inicial.');
                 }
 
                 $requiredLevel = gla_package_level($package);
                 $currentLevel = gla_user_vip_level($user->id);
 
                 if ($currentLevel < $requiredLevel) {
-                    return back()->with('error', 'Seu nivel atual nao libera esse ciclo. Necessario ' . gla_level_label($requiredLevel) . '.');
+                    return back()->with('error', 'Seu nível atual não libera esse ciclo. Necessário ' . gla_level_label($requiredLevel) . '.');
                 }
 
                 $previousPurchase = Purchase::where('user_id', $user->id)
@@ -48,12 +48,12 @@ class PurchaseController extends Controller
                     ->exists();
 
                 if ($previousPurchase) {
-                    return back()->with('error', 'Cada plano pode ser adquirido apenas uma unica vez.');
+                    return back()->with('error', 'Cada plano pode ser adquirido apenas uma única vez.');
                 }
             }
 
             if ($package->price > $user->deposit_balance) {
-                return back()->with('error', 'Saldo de deposito insuficiente.');
+                return back()->with('error', 'Saldo de depósito insuficiente.');
             }
 
             $dailyIncome = round($package->commission_with_avg_amount / max(1, (int) $package->validity), 2);
@@ -77,7 +77,7 @@ class PurchaseController extends Controller
             $newTotalInvestment = (float) Purchase::where('user_id', $user->id)->sum('amount');
             $newVipLevel = gla_vip_level_from_total($newTotalInvestment);
 
-            $user->package_tab = $newVipLevel > 0 ? 'VIP ' . $newVipLevel : 'VIP 0';
+            $user->package_tab = $newVipLevel > 0 ? 'VIP ' . $newVipLevel : 'Nível 0';
             $user->save();
 
             $this->payReferralCommissions($user, $package->price, $isFirstPurchase);

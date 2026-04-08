@@ -5,7 +5,7 @@
 @endphp
 @section('content')
     <section class="hero">
-        <h2>Historico de depositos</h2>
+        <h2>Histórico de depósitos</h2>
         <p>Acompanhe o status dos seus depositos, os valores enviados e a data de cada movimentacao na plataforma GreenLand Agro.</p>
     </section>
 
@@ -32,7 +32,7 @@
                                 @if($deposit->status === 'approved')
                                     Aprovado
                                 @elseif($deposit->status === 'pending')
-                                    Em analise
+                                    Em análise
                                 @elseif($deposit->status === 'rejected')
                                     Rejeitado
                                 @else
@@ -41,7 +41,7 @@
                             </span>
                         </div>
                         <div class="table-like">
-                            <div class="row-line"><span>Metodo</span><strong>{{ $deposit->method_name ?: 'PIX' }}</strong></div>
+                            <div class="row-line"><span>Método</span><strong>{{ $deposit->method_name ?: 'PIX' }}</strong></div>
                             <div class="row-line"><span>Data</span><strong>{{ optional($deposit->created_at)->format('d/m/Y H:i') }}</strong></div>
                         </div>
                         @if($deposit->transaction_id)

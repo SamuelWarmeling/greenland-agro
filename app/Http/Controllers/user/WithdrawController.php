@@ -35,7 +35,7 @@ class WithdrawController extends Controller
 
         $nowHour = (int) now()->format('G');
         if ($nowHour < 10 || $nowHour >= 17 || setting('w_time_status') === 'inactive') {
-            return redirect()->back()->with('error', 'Os saques ficam disponiveis das 10:00 as 17:00.');
+            return redirect()->back()->with('error', 'Os saques ficam disponíveis das 10:00 às 17:00.');
         }
 
         $user = Auth::user();
@@ -49,7 +49,7 @@ class WithdrawController extends Controller
             ->exists();
 
         if ($todayWithdraw) {
-            return redirect()->back()->with('error', 'Voce so pode solicitar 1 saque por dia.');
+            return redirect()->back()->with('error', 'Você só pode solicitar 1 saque por dia.');
         }
 
         if ((float) $request->amount > (float) $user->balance) {
@@ -60,11 +60,11 @@ class WithdrawController extends Controller
         $maximumWithdraw = (float) setting('maximum_withdraw');
 
         if ((float) $request->amount < $minimumWithdraw) {
-            return redirect()->back()->with('error', 'O saque minimo e de ' . price($minimumWithdraw) . '.');
+            return redirect()->back()->with('error', 'O saque mínimo é de ' . price($minimumWithdraw) . '.');
         }
 
         if ($maximumWithdraw > 0 && (float) $request->amount > $maximumWithdraw) {
-            return redirect()->back()->with('error', 'O valor maximo permitido no momento e de ' . price($maximumWithdraw) . '.');
+            return redirect()->back()->with('error', 'O valor máximo permitido no momento é de ' . price($maximumWithdraw) . '.');
         }
 
         $chargePercent = 10;
@@ -90,13 +90,13 @@ class WithdrawController extends Controller
         $ledger = new UserLedger();
         $ledger->user_id = $user->id;
         $ledger->reason = 'withdraw_request';
-        $ledger->perticulation = 'Solicitacao de saque enviada para analise';
+        $ledger->perticulation = 'Solicitação de saque enviada para análise';
         $ledger->amount = $request->amount;
         $ledger->debit = $netAmount;
         $ledger->status = 'pending';
         $ledger->date = date('d-m-Y H:i');
         $ledger->save();
 
-        return redirect()->back()->with('success', 'Saque solicitado com sucesso. Prazo medio de 2 a 48 horas.');
+        return redirect()->back()->with('success', 'Saque solicitado com sucesso. Prazo médio de 2 a 48 horas.');
     }
 }
