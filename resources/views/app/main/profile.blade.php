@@ -5,6 +5,17 @@
     if ($displayName === '' || str_starts_with($displayName, 'User')) {
         $displayName = 'Produtor GreenLand';
     }
+
+    $rawPhone = preg_replace('/\D+/', '', (string) auth()->user()->phone);
+    if (strlen($rawPhone) === 11) {
+        $formattedPhone = preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) $2-$3', $rawPhone);
+    } elseif (strlen($rawPhone) === 10) {
+        $formattedPhone = preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) $2-$3', $rawPhone);
+    } else {
+        $formattedPhone = auth()->user()->phone ?: '--';
+    }
+
+    $accountCode = auth()->user()->ref_id ?: '--';
 @endphp
 @section('content')
     <section class="hero">
@@ -16,14 +27,14 @@
     <section class="section">
         <div class="grid cols-2">
             <div class="card">
-                <h4>Nome exibido</h4>
+                <h4>Perfil do produtor</h4>
                 <div class="price" style="font-size:1.2rem;">{{ $displayName }}</div>
-                <p class="subtle">Perfil vinculado ao telefone {{ auth()->user()->phone }}</p>
+                <p class="subtle">Conta vinculada ao telefone {{ $formattedPhone }}</p>
             </div>
             <div class="card">
-                <h4>Identificacao da conta</h4>
-                <div class="price" style="font-size:1.2rem;">{{ auth()->user()->ref_id }}</div>
-                <p class="subtle">Codigo unico para convites e relacionamento na plataforma.</p>
+                <h4>Codigo de convite</h4>
+                <div class="price" style="font-size:1.2rem; letter-spacing:0.04em;">{{ $accountCode }}</div>
+                <p class="subtle">Use este codigo para compartilhar sua rede e acompanhar seus indicados.</p>
             </div>
         </div>
     </section>
