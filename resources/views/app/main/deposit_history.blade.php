@@ -1,119 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Recharge History</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"/>
+@extends('app.layout.gla')
+@php
+    $pageTitle = 'Historico de Depositos';
+    $deposits = \App\Models\Deposit::where('user_id', auth()->id())->orderByDesc('id')->get();
+@endphp
+@section('content')
+    <section class="hero">
+        <h2>Historico de depositos</h2>
+        <p>Acompanhe o status das suas recargas, os valores enviados e a data de cada solicitacao na plataforma GreenLand Agro.</p>
+    </section>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0e0e0e;
-      color: white;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      padding: 1rem;
-      background-color: #1a1a1a;
-      border-bottom: 1px solid #333;
-    }
-
-    .header i {
-      color: #f78e04;
-      font-size: 1.5rem;
-      cursor: pointer;
-      margin-right: 1rem;
-    }
-
-    .header h1 {
-      font-size: 1.2rem;
-      color: white;
-    }
-
-    .container {
-      padding: 1rem;
-    }
-
-    .history-item {
-      background-color: #1a1a1a;
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      border: 1px solid #2e2e2e;
-    }
-
-    .history-item .row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-      font-size: 0.95rem;
-    }
-
-    .history-item .row span {
-      color: #f78e04;
-    }
-
-    .status-success {
-      color: #00c853;
-    }
-
-    .status-pending {
-      color: #fcd535;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        padding: 1rem 0.8rem;
-      }
-
-      .history-item .row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <div class="header">
-    <i class="fas fa-arrow-left" onclick="window.history.back()"></i>
-    <h1>Recharge History</h1>
-  </div>
-
-  <div class="container">
-
-  
-     @foreach(\App\Models\Deposit::where('user_id', auth()->id())->orderBydesc('id')->get() as $element)
-    <!-- History Item 1 -->
-    <div class="history-item">
-      <div class="row">
-        <strong>Amount:</strong>
-        <span>{{price($element->amount)}}</span>
-      </div>
-      <div class="row">
-        <strong>Date:</strong>
-        <span>{{$element->created_at}}</span>
-      </div>
-      <div class="row">
-        <strong>Status:</strong>
-        <span class="status-success">@if($element->status == 'approved')
-                                    Successful Deposit
-                                @elseif($element->status == 'pending')
-                                    Deposit Processing
-                                @elseif($element->status == 'rejected')
-                                    Deposit Rejected
-                                @endif</span>
-      </div>
-     
-    </div>
-
-
-
-@endforeach
-  </div>
-</body>
-</html>
+    <section class="section">
+        <h3>Suas movimentacoes</h3>
+        @if($deposits->isEmpty())
+            <div class="card">
+                <h4>Nenhum deposito encontrado</h4>
+                <p>Quando voce iniciar uma recarga, ela aparecera aqui com o status de processamento ou aprovacao.</p>
+                <div class="actions">
+                    <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer primeiro deposito</a>
+                </div>
+            </div>
+        @else
+            <div class="grid">
+                @foreach($deposits as $deposit)
+                    <div class="card">
+                        <div class="row-line"><span>Valor</span><strong>{{ price($deposit->amount) }}</strong></div>
+                        <div class="row-line"><span>Metodo</span><strong>{{ $deposit->method_name ?: 'PIX' }}</strong></div>
+                        <div class="row-line"><span>Data</span><strong>{{ optional($deposit->created_at)->format('d/m/Y H:i') }}</strong></div>
+                        <div class="row-line"><span>Status</span><strong>
+                            @if($deposit->status === 'approved')
+                                Aprovado
+                            @elseif($deposit->status === 'pending')
+                                Em analise
+                            @elseif($deposit->status === 'rejected')
+                                Rejeitado
+                            @else
+                                {{ ucfirst($deposit->status) }}
+                            @endif
+                        </strong></div>
+                        @if($deposit->transaction_id)
+                            <div class="row-line"><span>Transacao</span><strong>{{ $deposit->transaction_id }}</strong></div>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        @endif
+        <div class="actions">
+            <a class="btn btn-primary" href="{{ route('user.deposit') }}">Novo deposito</a>
+            <a class="btn btn-secondary" href="{{ route('user.withdraw') }}">Ir para saques</a>
+        </div>
+    </section>
+@endsection
