@@ -388,15 +388,27 @@ class UserController extends Controller
 
     public function setupGateway(Request $request)
     {
+        $validated = Validator::make($request->all(), [
+            'name' => 'required|string|min:3|max:80',
+            'gateway_method' => 'required|string|max:40',
+            'gateway_number' => 'required|string|min:4|max:120',
+        ], [
+            'name.required' => 'Informe o nome do produtor.',
+            'gateway_method.required' => 'Informe o metodo de recebimento.',
+            'gateway_number.required' => 'Informe a chave PIX.',
+        ]);
 
-    
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated)->withInput()->with('error', $validated->errors()->first());
+        }
 
         User::where('id', Auth::id())->update([
             'name' => $request->name,
-            'gateway_method' => $request->gateway_method,
-            'gateway_number' => $request->gateway_number,
+            'gateway_method' => strtoupper(trim((string) $request->gateway_method)),
+            'gateway_number' => trim((string) $request->gateway_number),
         ]);
-        return redirect()->back()->with('success', 'Bank Created.');
+
+        return redirect()->back()->with('success', 'Chave PIX atualizada com sucesso.');
     }
 
     public function reset_bank()
@@ -529,7 +541,6 @@ class UserController extends Controller
     }
 
 }
-
 
 
 

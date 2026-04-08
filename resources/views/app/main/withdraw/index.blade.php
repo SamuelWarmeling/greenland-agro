@@ -25,4 +25,29 @@
             <button class="btn btn-primary" type="submit">Enviar solicitacao</button>
         </form>
     </section>
+
+    <section class="section">
+        <h3>Chave PIX para recebimento</h3>
+        <p class="subtle">Cadastre ou atualize a chave PIX usada nos seus saques. Esse dado fica vinculado a sua conta e sera usado no processamento das retiradas.</p>
+        <form action="{{ route('setup.gateway.submit') }}" method="POST" style="margin-top:16px;">
+            @csrf
+            <input type="hidden" name="gateway_method" value="PIX">
+            <input type="hidden" name="name" value="{{ auth()->user()->name ?: 'Produtor GreenLand' }}">
+            <div class="field">
+                <label for="gateway_number">Chave PIX</label>
+                <input
+                    id="gateway_number"
+                    name="gateway_number"
+                    type="text"
+                    value="{{ old('gateway_number', auth()->user()->gateway_number) }}"
+                    placeholder="CPF, telefone, email ou chave aleatoria"
+                    required
+                >
+                <small>Exemplo: telefone, CPF, email ou chave aleatoria vinculada ao seu banco.</small>
+            </div>
+            <button class="btn btn-secondary" type="submit">
+                {{ auth()->user()->gateway_number ? 'Atualizar chave PIX' : 'Cadastrar chave PIX' }}
+            </button>
+        </form>
+    </section>
 @endsection

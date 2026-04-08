@@ -8,6 +8,7 @@
 
     $formattedPhone = gla_format_phone(auth()->user()->phone);
     $accountCode = auth()->user()->ref_id ?: '--';
+    $pixKey = auth()->user()->gateway_number ?: 'Nao cadastrada';
 @endphp
 @section('content')
     <section class="hero">
@@ -27,6 +28,14 @@
                 <h4>Codigo de convite</h4>
                 <div class="price" style="font-size:1.2rem; letter-spacing:0.04em;">{{ $accountCode }}</div>
                 <p class="subtle">Use este codigo para compartilhar sua rede e acompanhar seus indicados.</p>
+            </div>
+            <div class="card" style="grid-column: 1 / -1;">
+                <h4>Chave PIX de saque</h4>
+                <div class="price" style="font-size:1.05rem; word-break:break-word;">{{ $pixKey }}</div>
+                <p class="subtle">Voce pode cadastrar ou atualizar a chave PIX diretamente na area de saques.</p>
+                <div class="actions">
+                    <a class="btn btn-secondary" href="{{ route('user.withdraw') }}">Gerenciar chave PIX</a>
+                </div>
             </div>
         </div>
     </section>
