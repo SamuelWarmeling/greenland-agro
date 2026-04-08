@@ -1,5 +1,9 @@
 @extends('app.layout.gla')
-@php $pageTitle = 'Convites'; @endphp
+@php
+    $pageTitle = 'Convites';
+    $inviteCode = auth()->user()->ref_id;
+    $formattedInviteCode = trim(chunk_split($inviteCode, 3, ' '));
+@endphp
 @section('content')
     <section class="hero">
         <h2>Sistema de convites</h2>
@@ -8,8 +12,20 @@
     <section class="section">
         <h3>Seu codigo de convite</h3>
         <div class="card">
-            <div class="price" style="font-size:1.2rem;">{{ auth()->user()->ref_id }}</div>
-            <p>Compartilhe esse codigo com sua equipe e acompanhe o crescimento em tres niveis.</p>
+            <div class="badge info" style="margin-bottom:12px;">Codigo pronto para compartilhamento</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <div>
+                    <div class="price" style="font-size:1.45rem; letter-spacing:0.14em; font-family:monospace;">{{ $formattedInviteCode }}</div>
+                    <p style="margin:0;">Compartilhe esse codigo com sua equipe e acompanhe o crescimento em tres niveis.</p>
+                </div>
+                <button
+                    class="btn btn-secondary"
+                    type="button"
+                    onclick="navigator.clipboard.writeText('{{ $inviteCode }}')"
+                >
+                    Copiar codigo
+                </button>
+            </div>
         </div>
     </section>
     <section class="section">
