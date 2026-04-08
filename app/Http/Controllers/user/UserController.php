@@ -439,7 +439,44 @@ class UserController extends Controller
 
     public function invite()
     {
-        return view('app.main.invite');
+        $user = Auth::user();
+        $inviteCode = trim((string) ($user->ref_id ?? ''));
+
+        if ($inviteCode === '') {
+            $inviteCode = 'SEM-CODIGO';
+        }
+
+        $directInviteIds = User::where('ref_by', $inviteCode)->pluck('id');
+        $teamSize = $directInviteIds->count();
+        $activeInvitees = Deposit::whereIn('user_id', $directInviteIds)
+            ->where('status', 'approved')
+            ->groupBy('user_id')
+            ->get()
+            ->count();
+
+        $inviteGoals = [3, 5, 10, 20, 50];
+        $nextInviteGoal = null;
+
+        foreach ($inviteGoals as $goal) {
+            if ($goal > $teamSize) {
+                $nextInviteGoal = $goal;
+                break;
+            }
+        }
+
+        $inviteLink = url('/register') . '?member=' . rawurlencode($inviteCode);
+        $whatsAppMessage = 'Entre na GreenLand Agro usando meu link de convite: ' . $inviteLink;
+
+        return view('app.main.invite', [
+            'inviteCode' => $inviteCode,
+            'formattedInviteCode' => trim(chunk_split($inviteCode, 3, ' ')),
+            'inviteLink' => $inviteLink,
+            'whatsAppShareLink' => 'https://wa.me/?text=' . rawurlencode($whatsAppMessage),
+            'teamSize' => $teamSize,
+            'activeInvitees' => $activeInvitees,
+            'nextInviteGoal' => $nextInviteGoal,
+            'nextInviteGap' => $nextInviteGoal ? max($nextInviteGoal - $teamSize, 0) : 0,
+        ]);
     }
 
     public function level()
@@ -558,7 +595,6 @@ class UserController extends Controller
     }
 
 }
-
 
 
 

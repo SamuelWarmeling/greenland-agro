@@ -1,25 +1,6 @@
 @extends('app.layout.gla')
 @php
     $pageTitle = 'Convites';
-    $user = auth()->user();
-    $inviteCode = trim((string) ($user->ref_id ?? ''));
-    if ($inviteCode === '') {
-        $inviteCode = 'SEM-CODIGO';
-    }
-    $formattedInviteCode = trim(chunk_split($inviteCode, 3, ' '));
-    $inviteLink = url('/register') . '?member=' . rawurlencode($inviteCode);
-    $whatsAppShareLink = 'https://wa.me/?text=' . rawurlencode("Entre na GreenLand Agro usando meu link de convite: {$inviteLink}");
-    $directInviteIds = \App\Models\User::where('ref_by', $inviteCode)->pluck('id');
-    $teamSize = $directInviteIds->count();
-    $activeInvitees = \App\Models\Deposit::whereIn('user_id', $directInviteIds)
-        ->where('status', 'approved')
-        ->groupBy('user_id')
-        ->get()
-        ->count();
-    $nextInviteGoal = collect([3, 5, 10, 20, 50])->first(function ($goal) use ($teamSize) {
-        return $goal > $teamSize;
-    });
-    $nextInviteGap = $nextInviteGoal ? $nextInviteGoal - $teamSize : 0;
 @endphp
 @section('content')
     <section class="hero">
