@@ -293,6 +293,11 @@
             z-index: 20;
         }
         .nav-bottom a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
             text-align: center;
             font-size: 0.78rem;
             color: var(--gla-muted);
@@ -300,10 +305,37 @@
             border-radius: 14px;
             font-weight: 700;
         }
+        .nav-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(30, 111, 168, 0.12), rgba(46, 139, 87, 0.14));
+            border: 1px solid rgba(11, 60, 93, 0.08);
+            color: var(--gla-blue-dark);
+            transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+        .nav-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
         .nav-bottom a.active,
         .nav-bottom a:hover {
             background: rgba(34, 197, 94, 0.12);
             color: var(--gla-green);
+        }
+        .nav-bottom a.active .nav-icon,
+        .nav-bottom a:hover .nav-icon {
+            background: linear-gradient(135deg, rgba(30, 111, 168, 0.18), rgba(34, 197, 94, 0.22));
+            color: var(--gla-green);
+            transform: translateY(-1px);
         }
         @media (max-width: 640px) {
             .grid.cols-2, .stats {
@@ -351,11 +383,36 @@
 </div>
 
 <nav class="nav-bottom">
-    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">Inicio</a>
-    <a href="{{ route('vip') }}" class="{{ request()->routeIs('vip') ? 'active' : '' }}">Planos</a>
-    <a href="{{ route('user.deposit') }}" class="{{ request()->routeIs('user.deposit') ? 'active' : '' }}">Deposito</a>
-    <a href="{{ route('user.invite') }}" class="{{ request()->routeIs('user.invite') ? 'active' : '' }}">Convites</a>
-    <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">Conta</a>
+    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
+        <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        </span>
+        <span>Inicio</span>
+    </a>
+    <a href="{{ route('vip') }}" class="{{ request()->routeIs('vip') ? 'active' : '' }}">
+        <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M6 19V9"/><path d="M12 19V5"/><path d="M18 19v-7"/></svg>
+        </span>
+        <span>Planos</span>
+    </a>
+    <a href="{{ route('user.deposit') }}" class="{{ request()->routeIs('user.deposit') ? 'active' : '' }}">
+        <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8h8.5a3.5 3.5 0 1 1 0 7H8.5a3.5 3.5 0 1 0 0 7H17"/></svg>
+        </span>
+        <span>Deposito</span>
+    </a>
+    <a href="{{ route('user.invite') }}" class="{{ request()->routeIs('user.invite') ? 'active' : '' }}">
+        <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M19 8v6"/><path d="M16 11h6"/></svg>
+        </span>
+        <span>Convites</span>
+    </a>
+    <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
+        <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
+        </span>
+        <span>Conta</span>
+    </a>
 </nav>
 </body>
 </html>

@@ -15,8 +15,8 @@
 @endphp
 @section('content')
     <section class="hero">
-        <h2>Planos, VIPs e ciclos da GreenLand Agro</h2>
-        <p>Ative sua conta com um plano base de 40 dias e avance de nivel comprando ciclos compativeis com a sua estrategia.</p>
+        <h2>Jornada de crescimento GreenLand Agro</h2>
+        <p>Comece com uma etapa base de 40 dias e avance no ecossistema com ciclos e oportunidades alinhadas ao seu nivel de evolucao.</p>
     </section>
 
     <section class="section">
@@ -34,13 +34,13 @@
     </section>
 
     <section class="section">
-        <h3>Planos Base - ativacao VIP 1</h3>
-        <p class="subtle">Disponiveis apenas para ativacao inicial. Duracao de 40 dias e rendimento de 15% ao dia.</p>
+        <h3>Etapas de entrada na plataforma</h3>
+        <p class="subtle">Essas etapas liberam o acesso inicial a GreenLand Agro. Todas seguem duracao de 40 dias e rendimento diario de 15%.</p>
         <div class="grid cols-2">
             @foreach($basePlans as $package)
                 @php $displayMeta = gla_package_display_meta($package); @endphp
                 <div class="card">
-                    <span class="badge">Plano Base</span>
+                    <span class="badge">Entrada inicial</span>
                     <div style="border-radius:16px; overflow:hidden; margin-bottom:12px; aspect-ratio:1/1; background:#eef5f7;">
                         <img src="{{ view_image($displayMeta['photo']) }}" alt="{{ $displayMeta['name'] }}" style="width:100%; height:100%; object-fit:cover;">
                     </div>
