@@ -6,8 +6,8 @@
 @section('content')
     <section class="hero">
         <span class="badge" style="background:rgba(255,255,255,0.18); color:#fff; margin-bottom:12px;">{{ $levelLabel }}</span>
-        <h2>Lista da equipe</h2>
-        <p>Confira os membros cadastrados neste nivel da sua rede e acompanhe os identificadores de cada conta.</p>
+        <h2>Membros da sua rede</h2>
+        <p>Confira os participantes cadastrados neste nivel da sua estrutura e acompanhe os dados principais de cada conta.</p>
     </section>
 
     <section class="section">
@@ -22,10 +22,10 @@
                     <div class="card">
                         <h4>{{ $member->name && !str_starts_with($member->name, 'User') ? $member->name : 'Produtor GreenLand' }}</h4>
                         <div class="table-like">
-                            <div class="row-line"><span>Telefone</span><strong>{{ $member->phone ?: '--' }}</strong></div>
-                            <div class="row-line"><span>Codigo</span><strong>{{ $member->ref_id ?: '--' }}</strong></div>
+                            <div class="row-line"><span>Telefone</span><strong>{{ gla_format_phone($member->phone) }}</strong></div>
+                            <div class="row-line"><span>Codigo de convite</span><strong>{{ $member->ref_id ?: '--' }}</strong></div>
                             <div class="row-line"><span>Saldo</span><strong>R$ {{ number_format($member->balance ?? 0, 2, ',', '.') }}</strong></div>
-                            <div class="row-line"><span>Status</span><strong>{{ $member->status ?: 'active' }}</strong></div>
+                            <div class="row-line"><span>Status</span><strong>{{ $member->status ?: 'ativo' }}</strong></div>
                         </div>
                     </div>
                 @endforeach

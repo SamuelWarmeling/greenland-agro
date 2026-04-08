@@ -6,7 +6,7 @@
 @section('content')
     <section class="hero">
         <h2>Historico de saques</h2>
-        <p>Veja o andamento das suas solicitacoes de retirada, acompanhe os valores e confirme quando cada saque foi aprovado.</p>
+        <p>Veja o andamento das suas solicitacoes de saque, acompanhe os valores e confirme quando cada operacao foi aprovada.</p>
     </section>
 
     <section class="section">

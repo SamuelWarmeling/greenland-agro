@@ -285,11 +285,11 @@
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(12px);
             border: 1px solid var(--gla-border);
-            border-radius: 20px;
+            border-radius: 24px;
             box-shadow: var(--gla-shadow);
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            padding: 10px;
+            padding: 10px 10px calc(10px + env(safe-area-inset-bottom, 0px));
             z-index: 20;
         }
         .nav-bottom a {
@@ -299,12 +299,14 @@
             justify-content: center;
             gap: 6px;
             text-align: center;
-            font-size: 0.78rem;
+            font-size: 0.76rem;
             color: var(--gla-muted);
-            padding: 8px 4px;
+            padding: 8px 4px 10px;
             border-radius: 14px;
             font-weight: 700;
+            position: relative;
         }
+        .nav-label { line-height: 1; }
         .nav-icon {
             width: 42px;
             height: 42px;
@@ -330,6 +332,15 @@
         .nav-bottom a:hover {
             background: rgba(34, 197, 94, 0.12);
             color: var(--gla-green);
+        }
+        .nav-bottom a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            width: 18px;
+            height: 4px;
+            border-radius: 999px;
+            background: var(--gla-green);
         }
         .nav-bottom a.active .nav-icon,
         .nav-bottom a:hover .nav-icon {
@@ -361,6 +372,32 @@
                 align-items: flex-start;
             }
             .hero h2 { font-size: 1.45rem; }
+        }
+        @media (max-width: 560px) {
+            .shell {
+                padding: 16px 12px 98px;
+            }
+            .nav-bottom {
+                width: calc(100% - 16px);
+                bottom: 8px;
+                border-radius: 22px;
+                padding-top: 8px;
+            }
+            .nav-bottom a {
+                font-size: 0.68rem;
+                gap: 5px;
+                padding: 8px 2px 9px;
+            }
+            .nav-icon {
+                width: 38px;
+                height: 38px;
+                border-radius: 12px;
+            }
+            .nav-bottom a.is-primary .nav-icon {
+                width: 48px;
+                height: 48px;
+                border-radius: 16px;
+            }
         }
     </style>
 </head>
@@ -402,31 +439,31 @@
         <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
         </span>
-        <span>Inicio</span>
+        <span class="nav-label">Inicio</span>
     </a>
     <a href="{{ route('vip') }}" class="{{ request()->routeIs('vip') ? 'active' : '' }}">
         <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M4 19h16"/><path d="M6 19V9"/><path d="M12 19V5"/><path d="M18 19v-7"/></svg>
         </span>
-        <span>Planos</span>
+        <span class="nav-label">Planos</span>
     </a>
     <a href="{{ route('user.deposit') }}" class="is-primary {{ request()->routeIs('user.deposit') ? 'active' : '' }}">
         <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M7 8h8.5a3.5 3.5 0 1 1 0 7H8.5a3.5 3.5 0 1 0 0 7H17"/></svg>
         </span>
-        <span>Deposito</span>
+        <span class="nav-label">Deposito</span>
     </a>
     <a href="{{ route('user.invite') }}" class="{{ request()->routeIs('user.invite') ? 'active' : '' }}">
         <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="M19 8v6"/><path d="M16 11h6"/></svg>
         </span>
-        <span>Convites</span>
+        <span class="nav-label">Convites</span>
     </a>
     <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
         <span class="nav-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
         </span>
-        <span>Conta</span>
+        <span class="nav-label">Conta</span>
     </a>
 </nav>
 </body>

@@ -6,7 +6,7 @@
 @section('content')
     <section class="hero">
         <h2>Historico de depositos</h2>
-        <p>Acompanhe o status das suas recargas, os valores enviados e a data de cada solicitacao na plataforma GreenLand Agro.</p>
+        <p>Acompanhe o status dos seus depositos, os valores enviados e a data de cada movimentacao na plataforma GreenLand Agro.</p>
     </section>
 
     <section class="section">
@@ -14,7 +14,7 @@
         @if($deposits->isEmpty())
             <div class="card">
                 <h4>Nenhum deposito encontrado</h4>
-                <p>Quando voce iniciar uma recarga, ela aparecera aqui com o status de processamento ou aprovacao.</p>
+                <p>Quando voce iniciar um deposito, ele aparecera aqui com o status de processamento ou aprovacao.</p>
                 <div class="actions">
                     <a class="btn btn-primary" href="{{ route('user.deposit') }}">Fazer primeiro deposito</a>
                 </div>

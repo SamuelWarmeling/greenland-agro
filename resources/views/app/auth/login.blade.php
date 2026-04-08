@@ -96,15 +96,15 @@
             </div>
             <div class="hero-copy">
                 <h2>Tecnologia e inovacao para o futuro da soja.</h2>
-                <p>Acesse sua conta para acompanhar planos, ciclos, beneficios VIP e a evolucao da sua estrategia dentro da plataforma GreenLand Agro.</p>
+                <p>Acesse sua conta para acompanhar etapas de entrada, ciclos, beneficios da plataforma e a evolucao da sua estrategia dentro da GreenLand Agro.</p>
             </div>
             <div class="hero-grid">
                 <div class="hero-card">
-                    <strong>Planos e ciclos</strong>
-                    <span>Acompanhe planos base, ciclos VIP e eventos rapidos em um unico ambiente.</span>
+                    <strong>Etapas e ciclos</strong>
+                    <span>Acompanhe etapas de entrada, ciclos de crescimento e oportunidades especiais em um unico ambiente.</span>
                 </div>
                 <div class="hero-card">
-                    <strong>Progressao VIP</strong>
+                    <strong>Progressao da conta</strong>
                     <span>Veja sua evolucao por nivel conforme o total investido na plataforma.</span>
                 </div>
             </div>

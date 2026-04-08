@@ -86,12 +86,12 @@
             </div>
             <div class="hero-copy">
                 <h2>Comece sua jornada na plataforma GreenLand Agro.</h2>
-                <p>Ative sua conta, acompanhe seus beneficios e construa sua progressao VIP com uma base clara de planos e ciclos.</p>
+                <p>Ative sua conta, acompanhe seus beneficios e construa sua evolucao com uma base clara de etapas e ciclos.</p>
             </div>
             <div class="timeline">
                 <div class="step"><strong>1. Criar conta</strong><span>Cadastre seu telefone e defina a senha de acesso.</span></div>
-                <div class="step"><strong>2. Ativar VIP 1</strong><span>O plano base libera a entrada na plataforma e a progressao inicial.</span></div>
-                <div class="step"><strong>3. Evoluir por estrategia</strong><span>Amplie seus resultados por ciclos ativos, reinvestimento e nivel VIP.</span></div>
+                <div class="step"><strong>2. Ativar sua etapa inicial</strong><span>A etapa base libera a entrada na plataforma e a progressao inicial.</span></div>
+                <div class="step"><strong>3. Evoluir por estrategia</strong><span>Amplie seus resultados por ciclos ativos, reinvestimento e crescimento de nivel.</span></div>
             </div>
         </section>
         <section class="panel">
@@ -137,7 +137,7 @@
                     <input id="ref_by" name="ref_by" type="text" value="{{ old('ref_by', $ref_by ?? '') }}" placeholder="Opcional">
                     <div class="hint">Se voce foi convidado, informe o codigo para vincular o cadastro.</div>
                 </div>
-                <div class="note">Ao criar sua conta, voce entra na plataforma e podera ativar o plano base para sair do VIP 0 e iniciar sua progressao.</div>
+                <div class="note">Ao criar sua conta, voce entra na plataforma e podera ativar sua etapa inicial para iniciar a sua jornada dentro da GreenLand Agro.</div>
                 <button type="submit" class="btn">Criar minha conta</button>
             </form>
 

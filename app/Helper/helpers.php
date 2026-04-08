@@ -307,9 +307,9 @@ if (! function_exists('gla_package_type_label')) {
     function gla_package_type_label($package)
     {
         return match ($package->tab ?? null) {
-            'vip' => 'Plano Base',
-            'fixed' => 'Ciclo VIP',
-            'event' => 'Evento Relampago',
+            'vip' => 'Etapa de entrada',
+            'fixed' => 'Ciclo de crescimento',
+            'event' => 'Oportunidade especial',
             default => 'Plano',
         };
     }
