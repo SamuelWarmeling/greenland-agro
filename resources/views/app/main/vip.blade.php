@@ -1,9 +1,11 @@
 @extends('app.layout.gla')
 @php
     $pageTitle = 'Planos';
+    $basePlanPrices = array_keys(gla_base_plan_catalog());
     $basePlans = \App\Models\Package::where('tab', 'vip')
         ->where('status', 'active')
         ->where('validity', 40)
+        ->whereIn('price', $basePlanPrices)
         ->orderBy('price')
         ->get();
     $cyclePlans = \App\Models\Package::where('tab', 'fixed')->where('status', 'active')->orderBy('price')->get();

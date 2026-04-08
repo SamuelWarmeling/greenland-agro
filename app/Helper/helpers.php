@@ -339,12 +339,12 @@ if (! function_exists('gla_base_plan_catalog')) {
     function gla_base_plan_catalog()
     {
         return [
-            ['name' => 'Semente', 'photo' => null],
-            ['name' => 'Plantio', 'photo' => null],
-            ['name' => 'Lavoura', 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
-            ['name' => 'Safrinha', 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
-            ['name' => 'Safra', 'photo' => '/public/upload/package/gla/safra.jpeg'],
-            ['name' => 'Mega Safra', 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
+            40 => ['name' => 'Semente', 'photo' => '/public/upload/package/gla/semente.jpeg'],
+            80 => ['name' => 'Plantio', 'photo' => '/public/upload/package/gla/broto.jpeg'],
+            120 => ['name' => 'Lavoura', 'photo' => '/public/upload/package/gla/cultivo.jpeg'],
+            240 => ['name' => 'Safrinha', 'photo' => '/public/upload/package/gla/safrinha.jpeg'],
+            480 => ['name' => 'Safra', 'photo' => '/public/upload/package/gla/safra.jpeg'],
+            960 => ['name' => 'Mega Safra', 'photo' => '/public/upload/package/gla/colheita-premium.jpeg'],
         ];
     }
 }
@@ -361,23 +361,16 @@ if (! function_exists('gla_package_display_meta')) {
             return $fallback;
         }
 
-        $basePlanIds = Package::where('tab', 'vip')
-            ->where('validity', 40)
-            ->where('status', 'active')
-            ->orderBy('price')
-            ->pluck('id')
-            ->values();
-
-        $position = $basePlanIds->search($package->id);
         $catalog = gla_base_plan_catalog();
+        $priceKey = (int) ($package->price ?? 0);
 
-        if ($position === false || ! isset($catalog[$position])) {
+        if (! isset($catalog[$priceKey])) {
             return $fallback;
         }
 
         return [
-            'name' => $catalog[$position]['name'],
-            'photo' => $catalog[$position]['photo'] ?: $fallback['photo'],
+            'name' => $catalog[$priceKey]['name'],
+            'photo' => $catalog[$priceKey]['photo'] ?: $fallback['photo'],
         ];
     }
 }
