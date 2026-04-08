@@ -8,7 +8,8 @@
 
     $formattedPhone = gla_format_phone(auth()->user()->phone);
     $accountCode = auth()->user()->ref_id ?: '--';
-    $pixKey = auth()->user()->gateway_number ?: 'Nao cadastrada';
+    $pixKey = gla_mask_pix_key(auth()->user()->gateway_number, auth()->user()->gateway_method);
+    $pixKeyType = auth()->user()->gateway_method ? gla_pix_key_type_label(auth()->user()->gateway_method) : 'Nao definido';
 @endphp
 @section('content')
     <section class="hero">
@@ -32,7 +33,7 @@
             <div class="card" style="grid-column: 1 / -1;">
                 <h4>Chave PIX de saque</h4>
                 <div class="price" style="font-size:1.05rem; word-break:break-word;">{{ $pixKey }}</div>
-                <p class="subtle">Voce pode cadastrar ou atualizar a chave PIX diretamente na area de saques.</p>
+                <p class="subtle">Tipo cadastrado: {{ $pixKeyType }}. Voce pode cadastrar ou atualizar a chave PIX diretamente na area de saques.</p>
                 <div class="actions">
                     <a class="btn btn-secondary" href="{{ route('user.withdraw') }}">Gerenciar chave PIX</a>
                 </div>

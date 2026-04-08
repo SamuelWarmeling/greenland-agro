@@ -388,13 +388,15 @@ class UserController extends Controller
 
     public function setupGateway(Request $request)
     {
+        $pixKeyTypeOptions = array_keys(gla_pix_key_type_options());
+
         $validated = Validator::make($request->all(), [
             'name' => 'required|string|min:3|max:80',
-            'gateway_method' => 'required|string|max:40',
+            'gateway_method' => 'required|string|in:' . implode(',', $pixKeyTypeOptions),
             'gateway_number' => 'required|string|min:4|max:120',
         ], [
             'name.required' => 'Informe o nome do produtor.',
-            'gateway_method.required' => 'Informe o metodo de recebimento.',
+            'gateway_method.required' => 'Selecione o tipo da chave PIX.',
             'gateway_number.required' => 'Informe a chave PIX.',
         ]);
 
@@ -402,10 +404,25 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validated)->withInput()->with('error', $validated->errors()->first());
         }
 
+        $gatewayMethod = strtoupper(trim((string) $request->gateway_method));
+        $gatewayNumber = trim((string) $request->gateway_number);
+
+        if ($gatewayMethod === 'CPF' && ! preg_match('/^\d{11}$/', preg_replace('/\D+/', '', $gatewayNumber))) {
+            return redirect()->back()->withInput()->with('error', 'Informe um CPF valido com 11 digitos.');
+        }
+
+        if ($gatewayMethod === 'TELEFONE' && ! preg_match('/^\d{10,13}$/', preg_replace('/\D+/', '', $gatewayNumber))) {
+            return redirect()->back()->withInput()->with('error', 'Informe um telefone PIX valido com DDD.');
+        }
+
+        if ($gatewayMethod === 'EMAIL' && ! filter_var($gatewayNumber, FILTER_VALIDATE_EMAIL)) {
+            return redirect()->back()->withInput()->with('error', 'Informe um email PIX valido.');
+        }
+
         User::where('id', Auth::id())->update([
             'name' => $request->name,
-            'gateway_method' => strtoupper(trim((string) $request->gateway_method)),
-            'gateway_number' => trim((string) $request->gateway_number),
+            'gateway_method' => $gatewayMethod,
+            'gateway_number' => $gatewayNumber,
         ]);
 
         return redirect()->back()->with('success', 'Chave PIX atualizada com sucesso.');
@@ -541,7 +558,6 @@ class UserController extends Controller
     }
 
 }
-
 
 
 

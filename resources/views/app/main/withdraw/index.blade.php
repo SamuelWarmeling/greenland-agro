@@ -1,5 +1,8 @@
 @extends('app.layout.gla')
-@php $pageTitle = 'Saque'; @endphp
+@php
+    $pageTitle = 'Saque';
+    $pixKeyType = old('gateway_method', auth()->user()->gateway_method ?: 'CPF');
+@endphp
 @section('content')
     <section class="hero">
         <h2>Regras de saque</h2>
@@ -9,7 +12,7 @@
         <h3>Solicitar saque</h3>
         <div class="table-like">
             <div class="row-line"><span>Saldo disponivel</span><strong>{{ price(auth()->user()->balance) }}</strong></div>
-            <div class="row-line"><span>Chave PIX cadastrada</span><strong>{{ auth()->user()->gateway_number ?: 'Nao cadastrada' }}</strong></div>
+            <div class="row-line"><span>Chave PIX cadastrada</span><strong>{{ gla_mask_pix_key(auth()->user()->gateway_number, auth()->user()->gateway_method) }}</strong></div>
         </div>
         <form action="{{ route('user.withdraw.request') }}" method="POST" style="margin-top:16px;">
             @csrf
@@ -31,8 +34,15 @@
         <p class="subtle">Cadastre ou atualize a chave PIX usada nos seus saques. Esse dado fica vinculado a sua conta e sera usado no processamento das retiradas.</p>
         <form action="{{ route('setup.gateway.submit') }}" method="POST" style="margin-top:16px;">
             @csrf
-            <input type="hidden" name="gateway_method" value="PIX">
             <input type="hidden" name="name" value="{{ auth()->user()->name ?: 'Produtor GreenLand' }}">
+            <div class="field">
+                <label for="gateway_method">Tipo de chave PIX</label>
+                <select id="gateway_method" name="gateway_method" required>
+                    @foreach(gla_pix_key_type_options() as $value => $label)
+                        <option value="{{ $value }}" {{ $pixKeyType === $value ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+            </div>
             <div class="field">
                 <label for="gateway_number">Chave PIX</label>
                 <input
@@ -43,7 +53,7 @@
                     placeholder="CPF, telefone, email ou chave aleatoria"
                     required
                 >
-                <small>Exemplo: telefone, CPF, email ou chave aleatoria vinculada ao seu banco.</small>
+                <small>Selecione o tipo e informe a chave PIX exatamente como ela esta cadastrada no seu banco.</small>
             </div>
             <button class="btn btn-secondary" type="submit">
                 {{ auth()->user()->gateway_number ? 'Atualizar chave PIX' : 'Cadastrar chave PIX' }}

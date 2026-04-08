@@ -368,6 +368,74 @@ if (! function_exists('gla_level_label')) {
     }
 }
 
+if (! function_exists('gla_pix_key_type_options')) {
+    function gla_pix_key_type_options()
+    {
+        return [
+            'CPF' => 'CPF',
+            'TELEFONE' => 'Telefone',
+            'EMAIL' => 'Email',
+            'ALEATORIA' => 'Chave aleatoria',
+        ];
+    }
+}
+
+if (! function_exists('gla_pix_key_type_label')) {
+    function gla_pix_key_type_label($type)
+    {
+        $type = strtoupper((string) $type);
+
+        return gla_pix_key_type_options()[$type] ?? ($type ?: 'PIX');
+    }
+}
+
+if (! function_exists('gla_mask_pix_key')) {
+    function gla_mask_pix_key($key, $type = null)
+    {
+        $key = trim((string) $key);
+        $type = strtoupper((string) $type);
+
+        if ($key === '') {
+            return 'Nao cadastrada';
+        }
+
+        if ($type === 'CPF') {
+            $digits = preg_replace('/\D+/', '', $key);
+            if (strlen($digits) === 11) {
+                return preg_replace('/(\d{3})(\d{3})(\d{3})(\d{2})/', '$1.***.***-$4', $digits);
+            }
+        }
+
+        if ($type === 'TELEFONE') {
+            $digits = preg_replace('/\D+/', '', $key);
+            if (strlen($digits) >= 10) {
+                $digits = substr($digits, -11);
+                if (strlen($digits) === 11) {
+                    return preg_replace('/(\d{2})(\d{5})(\d{4})/', '($1) *****-$3', $digits);
+                }
+                if (strlen($digits) === 10) {
+                    return preg_replace('/(\d{2})(\d{4})(\d{4})/', '($1) ****-$3', $digits);
+                }
+            }
+        }
+
+        if ($type === 'EMAIL') {
+            if (str_contains($key, '@')) {
+                [$user, $domain] = explode('@', $key, 2);
+                $visible = substr($user, 0, 2);
+                return $visible . str_repeat('*', max(strlen($user) - 2, 3)) . '@' . $domain;
+            }
+        }
+
+        $length = strlen($key);
+        if ($length <= 8) {
+            return str_repeat('*', max($length - 2, 1)) . substr($key, -2);
+        }
+
+        return substr($key, 0, 4) . str_repeat('*', max($length - 8, 4)) . substr($key, -4);
+    }
+}
+
 if (! function_exists('gla_base_plan_catalog')) {
     function gla_base_plan_catalog()
     {
