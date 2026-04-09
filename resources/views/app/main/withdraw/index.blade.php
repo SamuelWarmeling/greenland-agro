@@ -2,11 +2,12 @@
 @php
     $pageTitle = 'Saque';
     $pixKeyType = old('gateway_method', auth()->user()->gateway_method ?: 'CPF');
+    $withdrawFeePercent = 10;
 @endphp
 @section('content')
     <section class="hero">
         <h2>Regras de saque</h2>
-        <p>Solicitações das 10:00 às 17:00, limite de 1 saque por dia, valor mínimo de {{ price(gla_withdraw_minimum()) }} e taxa fixa de 10%.</p>
+        <p>Solicitações das 10:00 às 17:00, limite de 1 saque por dia, valor mínimo de {{ price(gla_withdraw_minimum()) }} e taxa fixa de {{ $withdrawFeePercent }}%.</p>
     </section>
     <section class="compact-stats">
         <div class="compact-stat">
@@ -28,14 +29,19 @@
             @csrf
             <div class="field">
                 <label for="amount">Valor do saque</label>
-                <input id="amount" name="amount" type="number" min="{{ gla_withdraw_minimum() }}" step="0.01" placeholder="Minimo de {{ price(gla_withdraw_minimum()) }}" required>
-                <small>Processamento medio: 2 a 48 horas.</small>
+                <input id="amount" name="amount" type="number" min="{{ gla_withdraw_minimum() }}" step="0.01" placeholder="Mínimo de {{ price(gla_withdraw_minimum()) }}" required>
+                <small>Processamento médio: 2 a 48 horas.</small>
+            </div>
+            <div class="table-like" style="margin:16px 0;">
+                <div class="row-line"><span>Valor solicitado</span><strong id="withdraw-requested">{{ price(0) }}</strong></div>
+                <div class="row-line"><span>Taxa de saque ({{ $withdrawFeePercent }}%)</span><strong id="withdraw-fee">{{ price(0) }}</strong></div>
+                <div class="row-line"><span>Valor líquido a receber</span><strong id="withdraw-net">{{ price(0) }}</strong></div>
             </div>
             <div class="field">
                 <label for="password">Senha de confirmação</label>
                 <input id="password" name="password" type="password" placeholder="Informe sua senha" required>
             </div>
-            <button class="btn btn-primary" type="submit">Enviar solicitacao</button>
+            <button class="btn btn-primary" type="submit">Enviar solicitação</button>
         </form>
     </section>
 
@@ -60,7 +66,7 @@
                     name="gateway_number"
                     type="text"
                     value="{{ old('gateway_number', auth()->user()->gateway_number) }}"
-                    placeholder="CPF, telefone, email ou chave aleatoria"
+                    placeholder="CPF, telefone, email ou chave aleatória"
                     required
                 >
                 <small>Selecione o tipo e informe a chave PIX exatamente como ela está cadastrada no seu banco.</small>
@@ -70,4 +76,35 @@
             </button>
         </form>
     </section>
+
+    <script>
+        (() => {
+            const amountInput = document.getElementById('amount');
+            const requestedNode = document.getElementById('withdraw-requested');
+            const feeNode = document.getElementById('withdraw-fee');
+            const netNode = document.getElementById('withdraw-net');
+            const feePercent = {{ $withdrawFeePercent }};
+
+            const formatCurrency = (value) => {
+                return new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL'
+                }).format(value);
+            };
+
+            const updatePreview = () => {
+                const amount = parseFloat(amountInput.value || 0);
+                const safeAmount = Number.isFinite(amount) ? amount : 0;
+                const fee = safeAmount > 0 ? ((safeAmount * feePercent) / 100) : 0;
+                const net = safeAmount > 0 ? Math.max(safeAmount - fee, 0) : 0;
+
+                requestedNode.textContent = formatCurrency(safeAmount);
+                feeNode.textContent = formatCurrency(fee);
+                netNode.textContent = formatCurrency(net);
+            };
+
+            amountInput.addEventListener('input', updatePreview);
+            updatePreview();
+        })();
+    </script>
 @endsection
